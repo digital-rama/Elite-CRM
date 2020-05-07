@@ -1,0 +1,90 @@
+{% extends 'manpower/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    .update {
+        color: orange;
+    }
+
+    .delete {
+        color: red;
+    }
+
+    tbody tr th {
+        font-weight: 400 !important;
+        color: grey !important;
+    }
+
+</style>
+
+
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">All Tenders</h1>
+        <a href="{% url 'add_tender' %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-plus fa-sm text-white-50 pr-2"></i>Add Tender</a>
+    </div>
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tender Table</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Creation Date</th>
+                            <th>Tender Number</th>
+                            <th>Tender Name</th>
+                            <th>PS Date</th>
+                            <th>TBO Date</th>
+                            <th>Bid Status</th>
+                            <th>BPO Date</th>
+                            <th><i class="material-icons update">edit</i></th>
+                            <th><i class="material-icons delete">delete</i></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Creation Date</th>
+                            <th>Tender Number</th>
+                            <th>Tender Name</th>
+                            <th>PS Date</th>
+                            <th>TBO Date</th>
+                            <th>Bid Status</th>
+                            <th>BPO Date</th>
+                            <th><i class="material-icons update">edit</i></th>
+                            <th><i class="material-icons delete">delete</i></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for tender in tender_list  %}
+                        <tr>
+                            <td>{{tender.date_created}}</td>
+                            <td><a href="/tenders/{{tender.uuid_no}}">{{tender.tender_number}}</a></td>
+                            <td><a href="/tenders/{{tender.uuid_no}}">{{tender.tender_name}}</a></td>
+                            <td>{{tender.physical_submission_date}}</td>
+                            <td>{{tender.tech_bid_opening_date}}</td>
+                            <td>{{tender.bid_status}}</td>
+                            <td>{{tender.bid_price_opening_date}}</td>
+                            <th><a href="{% url 'edit_tender' tender.id %}"><i
+                                        class="material-icons update">edit</i></a></th>
+                            <th><a href="{% url 'delete_tender' tender.id %}"><i
+                                        class="material-icons delete">delete</i></a></th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

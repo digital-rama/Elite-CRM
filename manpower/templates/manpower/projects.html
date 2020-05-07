@@ -1,0 +1,80 @@
+{% extends 'manpower/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    .update {
+        color: orange;
+    }
+
+    .delete {
+        color: red;
+    }
+
+    tbody tr th {
+        font-weight: 400 !important;
+        color: grey !important;
+    }
+
+</style>
+
+
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">All Projects</h1>
+
+        <a href="" onclick="history.go(-1)"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-backward fa-sm text-white-50 pr-2"></i>Go Back</a>
+    </div>
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Project Table</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Project Number</th>
+                            <th>Project Name</th>
+                            <th>Project Start Date</th>
+                            <th>Project Initiation</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Project Number</th>
+                            <th>Project Name</th>
+                            <th>Project Start Date</th>
+                            <th>Project Initiation</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for ap in all_projects  %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <th>{{ap.project_number}}</th>
+                            <th>{{ap.project_name}}</th>
+                            <th>{{ap.project_start_date}}</th>
+                            <th><a href="#"
+                                    class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                        class="fas fa-plus fa-sm text-white-50 pr-2"></i>Initiate Project</a></th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

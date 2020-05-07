@@ -1,0 +1,29 @@
+{% extends "manpower/base.html" %}
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}
+
+<div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Add Other Contractor Details</h1>
+        <a href="#" onclick="history.go(-1)"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-backward fa-sm text-white-50 pr-2"></i>Back to Tender</a>
+    </div>
+
+
+
+    <form method='POST' enctype=multipart/form-data>
+        {% csrf_token %}
+        {{form|crispy}}
+        <div class="text-right">
+            <input type="submit" class="btn btn-info" value="Add Contractor" name="Save">
+            <input type="submit" class="btn btn-success" value="Submit and Add Another Contractor" name="NewForm">
+        </div>
+    </form>
+
+</div>
+
+{% endblock content %}

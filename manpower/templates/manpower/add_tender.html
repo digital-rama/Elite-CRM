@@ -1,0 +1,38 @@
+{% extends "manpower/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load bootstrap4 %} {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %} {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %} {# Embed Bootstrap JS+jQuery #}
+{{ form.media }} {# Adds date-picker required JS and CSS #}
+
+
+
+<div class="container">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">All Tenders</h1>
+        <a href="{% url 'tenders' %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-backward fa-sm text-white-50 pr-2"></i>Back to All Tenders</a>
+
+        <a href="" onclick="history.go(-1)"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-backward fa-sm text-white-50 pr-2"></i>Go Back</a>
+    </div>
+
+
+
+
+    <form method='POST' enctype=multipart/form-data>
+        {% csrf_token %}
+        {{form|crispy}}
+        <div class="text-right">
+            <button type="submit" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-md">Submit
+                Tender</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

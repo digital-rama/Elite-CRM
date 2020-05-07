@@ -1,0 +1,204 @@
+{% extends 'manpower/base.html' %}
+
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tender Details</h1>
+        <a href="{% url 'tenders' %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-suitcase fa-sm text-white-50 pr-2"></i> All Tenders</a>
+        <a href="{% url 'add_contractor' tender_object.id %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
+                class="fas fa-users fa-sm text-white-50 pr-2"></i> Add Contructors</a>
+        <a href="{% url 'add_project' tender_object.id %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-tasks fa-sm text-white-50 pr-2"></i>Allocate Projects</a>
+        <a href="{% url 'edit_tender' tender_object.id %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-warning shadow-sm"><i
+                class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit</a>
+        <a href="{% url 'delete_tender' tender_object.id %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i
+                class="fas fa-trash fa-sm text-white-50 pr-2"></i>Delete</a>
+    </div>
+
+    <div class="row">
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Tender
+                                Number<strong>&nbsp:&nbsp{{tender_object.tender_number}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Tender
+                                Name<strong>&nbsp:&nbsp{{tender_object.tender_name}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Tender Submission
+                                Date<strong>&nbsp:&nbsp{{tender_object.tender_submission_date}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Physical Submission
+                                Date<strong>&nbsp:&nbsp{{tender_object.physical_submission_date}}</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Tech Bid Opening
+                                Date<strong>&nbsp:&nbsp{{tender_object.tech_bid_opening_date}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Bid
+                                Status<strong>&nbsp:&nbsp{{tender_object.bid_status}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Bid Price Opening
+                                Date<strong>&nbsp:&nbsp{{tender_object.bid_price_opening_date}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Bid
+                                Price<strong>&nbsp:&nbsp{{tender_object.prize_bid}}</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .update {
+        color: orange;
+    }
+
+    .delete {
+        color: red;
+    }
+
+    tbody tr th {
+        font-weight: 400 !important;
+        color: grey !important;
+    }
+
+</style>
+
+
+<!-- Other Contractor Details -->
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Accordion -->
+        <a href="#otherContractor" class="d-block card-header py-3" data-toggle="collapse" role="button"
+            aria-expanded="true" aria-controls="otherContractor">
+            <h6 class="m-0 font-weight-bold text-primary">Other Contractor Details</h6>
+        </a>
+        <div class="collapse show" id="otherContractor">
+            <div class="card-body">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Contructor Name</th>
+                            <th>Contructor Location</th>
+                            <th>Contact Number</th>
+                            <th>Email Address</th>
+                            <th>Other Contructors Bid Amount</th>
+                            <th><i class="material-icons update">edit</i></th>
+                            <th><i class="material-icons delete">delete</i></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Contructor Name</th>
+                            <th>Contructor Location</th>
+                            <th>Contact Number</th>
+                            <th>Email Address</th>
+                            <th>Other Contructors Bid Amount</th>
+                            <th><i class="material-icons update">edit</i></th>
+                            <th><i class="material-icons delete">delete</i></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for oc in other_contractor  %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <th>{{oc.contructor_name}}</th>
+                            <th>{{oc.contructor_location}}</th>
+                            <th>{{oc.contact_number}}</th>
+                            <th>{{oc.email_address}}</th>
+                            <th>{{oc.other_contructor_bid_amount}}</th>
+                            <th><a href="{% url 'edit_contractor' oc.id tender_object.id %}"><i
+                                        class="material-icons update">edit</i></a></th>
+                            <th><a href="{% url 'delete_contractor' oc.id %}"><i
+                                        class="material-icons delete">delete</i></a></th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card shadow mb-4">
+        <!-- Card Header - Accordion -->
+        <a href="#allocatedProjects" class="d-block card-header py-3" data-toggle="collapse" role="button"
+            aria-expanded="true" aria-controls="allocatedProjects">
+            <h6 class="m-0 font-weight-bold text-primary">Allocated Project Details</h6>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="allocatedProjects">
+            <div class="card-body">
+
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Project Number</th>
+                            <th>Project Name</th>
+                            <th>Project Start Date</th>
+                            <th><i class="material-icons update">edit</i></th>
+                            <th><i class="material-icons delete">delete</i></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Project Number</th>
+                            <th>Project Name</th>
+                            <th>Project Start Date</th>
+                            <th><i class="material-icons update">edit</i></th>
+                            <th><i class="material-icons delete">delete</i></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for po in project_obj  %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <th>{{po.project_number}}</th>
+                            <th>{{po.project_name}}</th>
+                            <th>{{po.project_start_date}}</th>
+                            <th><a href="{% url 'edit_project' po.id tender_object.id %}"><i
+                                        class="material-icons update">edit</i></a></th>
+                            <th><a href="{% url 'delete_project' po.id %}"><i
+                                        class="material-icons delete">delete</i></a></th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

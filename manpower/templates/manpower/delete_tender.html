@@ -1,0 +1,29 @@
+{% extends "manpower/base.html" %}
+
+
+{% block content %}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+
+                <h2>Tender Delete Confirmation</h2>
+                <br>
+                <h4>Are you sure you want to delete "{{obj.tender_name}}"?</h4>
+                <br>
+                <form action="{% url 'delete_tender' obj.id  %}" method="POST">
+
+                    {% csrf_token %}
+                    <a class="btn btn-warning mr-5" href="{% url 'tenders' %}">Cancel</a>
+
+                    <input class="btn btn-danger" type="submit" value="Delete Tender">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

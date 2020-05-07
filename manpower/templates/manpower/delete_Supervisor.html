@@ -1,0 +1,27 @@
+{% extends "manpower/base.html" %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+
+                <h2>Supervisor Delete Confirmation</h2>
+                <br>
+                <h4>Are you sure, you want to Delete teh Supervisor <strong>"{{obj.name}}</strong>"?</h4>
+                <br>
+                <form action="{% url 'detete_supervisor' obj.id  %}" method="POST">
+
+                    {% csrf_token %}
+                    <a class="btn btn-warning mr-5" href="{% url 'supervisors' %}">Cancel</a>
+
+                    <input class="btn btn-danger" type="submit" value="Delete Supervisor">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
