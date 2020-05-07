@@ -16,7 +16,7 @@
     </div>
 
 
-    <form method='POST' enctype=multipart/form-data>
+    <form method='POST' enctype=multipart/form-data autocomplete="off">
         {% csrf_token %}
         {{form|crispy}}
         <div class="text-right">

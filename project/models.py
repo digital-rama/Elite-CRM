@@ -62,8 +62,8 @@ class Projects(models.Model):
         'Project Number', max_length=200, blank=False, null=True)
     project_name = models.CharField(
         'Project Name', max_length=200, blank=False, null=True)
-    project_start_date = models.CharField(
-        'Project Start Date', max_length=200, blank=False, null=True)
+    project_start_date = models.DateField(
+        'Project Start Date', default=timezone.now)
 
     def __str__(self):
         return self.tender.tender_number + "-" + self.project_name
@@ -101,9 +101,7 @@ class Security_Deposit(models.Model):
 
 
 class ProjectP1(models.Model):
-    tender = models.ForeignKey(Tender, on_delete=models.CASCADE)
-    project_name = models.CharField(max_length=50)
-    start_date = models.DateField('Project Start Date', default=timezone.now)
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
     ai_sub_date = models.DateField(
         'Agreement & Indemnity Bond Submission Date', default=timezone.now)
     ai_upload = models.FileField('Agreement & Indemnity Bond Upload')
@@ -112,8 +110,9 @@ class ProjectP1(models.Model):
     ahtsn = models.CharField(
         'Agreement Handover to Supervisor Name', max_length=50)
     ahts = models.DateField(
-        'Agreement Handover to Supervisor Date', default=timezone.now)
-    asd = models.DateField('Agreement Submission Date', default=timezone.now)
+        'Agreement Handover to Supervisor Date', default=timezone.now, null=True)
+    asd = models.DateField('Agreement Submission Date',
+                           default=timezone.now, null=True)
     astdn = models.CharField(
         'Agreement Submission to (Division Name)', max_length=50)
     astpn = models.CharField(
@@ -125,3 +124,56 @@ class ProjectP1(models.Model):
 
     def __str__(self):
         return self.tender.tender_name+" - "+self.project_name
+
+
+class ProjectP2(models.Model):
+    Assistant = 'Assistant'
+    Engineer = 'Engineer'
+    Division_Office = 'Division Office'
+    Supervisor = 'Supervisor'
+    POSITION = [(Assistant, 'Assistant'), (Engineer, 'Engineer'),
+                (Division_Office, 'Division Office'), (Supervisor, 'Supervisor')]
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
+    cover_letter = models.FileField('Covering Letter Copy')
+    invoice_copy = models.FileField('Invoice Copy')
+    atten_sheet = models.FileField('Attendance Sheet Copy')
+    salary_sheet = models.FileField('Salary Sheet Copy')
+    bank_statement = models.FileField('Bank Statement Copy')
+    epf_chalan = models.FileField('EPF Chalan (Upload)')
+    epf_ecr = models.FileField('EPF ECR (Upload)')
+    esic_chalan = models.FileField('ESIC Chalan (Upload)')
+    esic_ecr = models.FileField('ESIC ECR (Upload)')
+    labor_passbook = models.FileField('Labore Passbook / BS (Upload)')
+    doc_handover_date = models.DateField(
+        'All Document Handover Date', default=timezone.now)
+    doc_handover_option = models.CharField(
+        'All Document Handover to (Options)', choices=POSITION, max_length=200, default=None)
+    doc_handover_person = models.CharField(
+        'All Document Handover to (Person Name)', max_length=50, null=True)
+
+    class Meta:
+        verbose_name = 'Project Phase - 2'
+        verbose_name_plural = 'Project Phase - 2'
+
+    def __str__(self):
+        return self.project.project_name+" - "+self.doc_handover_date
+
+
+class ProjectFollowup(models.Model):
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
+    date_time = models.DateTimeField(
+        'Current Date & Time', auto_now_add=True, null=True)
+    followup_by = models.CharField(max_length=200, null=True)
+    foolowup_to = models.CharField(max_length=200, null=True)
+    foolowup_remarks = models.CharField(max_length=500, null=True)
+
+    class Meta:
+        verbose_name = 'Project Followup'
+        verbose_name_plural = 'Project Followup'
+
+    def __str__(self):
+        return self.project.project_name+" - "+self.foolowup_to
+
+
+# class ProjectFinal(models.Model):
+#     pass

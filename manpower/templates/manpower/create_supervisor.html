@@ -35,10 +35,10 @@
     </div>
     {% endfor %}
 
-    <form method='POST' enctype=multipart/form-data>
+    <form method='POST' enctype=multipart/form-data autocomplete="off">
         {% csrf_token %}
         {{form|crispy}}
-        <div class="text-right">
+        <div class=" text-right">
             <button type="submit" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-md">Add
                 Supervisor</button>
         </div>

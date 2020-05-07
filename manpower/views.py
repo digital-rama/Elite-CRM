@@ -77,6 +77,7 @@ def detete_tender(request, id):
 
 
 def projects(request):
+
     all_projects = Projects.objects.all()
     context = {'all_projects': all_projects}
     return render(request, 'manpower/projects.html', context)
