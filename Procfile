@@ -1,0 +1,1 @@
+web: gunicorn elite_works.wsgi --log-file -
