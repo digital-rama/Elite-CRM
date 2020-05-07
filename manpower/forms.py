@@ -24,14 +24,14 @@ class otherContractorsForm(forms.ModelForm):
         exclude = ['tender']
 
 
-class addProject(forms.ModelForm):
-    class Meta:
-        model = Projects
-        fields = '__all__'
-        exclude = ['tender']
-        widgets = {
-            'project_start_date': DatePickerInput(format='%Y-%m-%d'),
-        }
+# class addProject(forms.ModelForm):
+#     class Meta:
+#         model = Projects
+#         fields = '__all__'
+#         exclude = ['tender']
+#         widgets = {
+#             'project_start_date': DatePickerInput(format='%Y-%m-%d'),
+#         }
 
 # Supervisor & Labour Forms
 # Supervisor & Labour Forms
@@ -46,4 +46,14 @@ class SupervisorForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'placeholder': '********', 'autocomplete': 'off', 'data-toggle': 'password'}),
             're_password': forms.PasswordInput(attrs={'placeholder': '********', 'autocomplete': 'off', 'data-toggle': 'password'}),
             'dateofbirth': DatePickerInput(format='%Y-%m-%d')
+        }
+
+
+class addProject(forms.ModelForm):
+    class Meta:
+        model = Projects
+        fields = '__all__'
+        exclude = ['tender']
+        widgets = {
+            'project_start_date': DatePickerInput(format='%Y-%m-%d'),
         }

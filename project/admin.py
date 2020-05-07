@@ -46,3 +46,4 @@ admin.site.register(ProjectP1)
 admin.site.register(Projects)
 admin.site.register(ProjectP2)
 admin.site.register(ProjectFollowup)
+

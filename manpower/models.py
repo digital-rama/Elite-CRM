@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from project.models import ProjectP1, Tender
+from project.models import *
+
 
 
 class SuperVisors(models.Model):

@@ -12,12 +12,6 @@ from manpower.forms import *
 # Create your views here.
 
 
-def base(request):
-
-    context = {}
-    return render(request, 'manpower/base.html', context)
-
-
 def dashboard(request):
 
     context = {}
@@ -161,6 +155,12 @@ def delete_project(request, id):
     obj = Projects.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+def project_details(request, id):
+
+    context = {}
+    return render(request, 'manpower/project_details.html', context)
 
 
 # Supervisor & Labour Views

@@ -67,7 +67,7 @@
                             <th>{{ap.project_number}}</th>
                             <th>{{ap.project_name}}</th>
                             <th>{{ap.project_start_date}}</th>
-                            <th class="text-center"><a href="#"
+                            <th class="text-center"><a href="{% url 'project_details' ap.id %}"
                                     class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
                                         class="fas fa-plus fa-sm text-white-50 pr-2"></i>Initiate Project</a></th>
                         </tr>

@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 import uuid
-from manpower.models import models
+from manpower.models import *
+
 # Create your models here.
 
 
@@ -58,6 +59,8 @@ class otherContractors(models.Model):
 
 class Projects(models.Model):
     tender = models.ForeignKey(Tender, on_delete=models.CASCADE)
+    superviser = models.ForeignKey(
+        on_delete=models.CASCADE, to='manpower.SuperVisors', null=True)
     project_number = models.CharField(
         'Project Number', max_length=200, blank=False, null=True)
     project_name = models.CharField(
@@ -175,5 +178,6 @@ class ProjectFollowup(models.Model):
         return self.project.project_name+" - "+self.foolowup_to
 
 
-# class ProjectFinal(models.Model):
-#     pass
+class superdata(models.Model):
+    superviser = models.ForeignKey(
+        on_delete=models.CASCADE, to='manpower.SuperVisors')
