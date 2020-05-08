@@ -3,7 +3,133 @@
 
 {% block content %}
 
-<h1>Project Details</h1>
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Project Details</h1>
+        <a href="#" class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-suitcase fa-sm text-white-50 pr-2"></i>All Projects</a>
+        <a href="#" class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
+                class="fas fa-users fa-sm text-white-50 pr-2"></i>Mark Attendance</a>
+        <a href="#" class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-tasks fa-sm text-white-50 pr-2"></i>Allocate Projects</a>
+        <a href="#" class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-warning shadow-sm"><i
+                class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit</a>
+        <a href="#" class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i
+                class="fas fa-trash fa-sm text-white-50 pr-2"></i>Delete</a>
+    </div>
+
+
+    <div class="row">
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Tender
+                                Name<strong>&nbsp:&nbsp{{project_obj.tender.tender_name}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Project
+                                Number<strong>&nbsp:&nbsp{{project_obj.project_number}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Project
+                                Name<strong>&nbsp:&nbsp{{project_obj.project_name}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Project Start
+                                Date<strong>&nbsp:&nbsp{{project_obj.project_start_date}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Aligned
+                                Supervisor<strong>&nbsp:&nbsp{{project_obj.superviser.name}}</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Tech Bid Opening
+                                Date<strong>&nbsp:&nbsp*******</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Bid
+                                Status<strong>&nbsp:&nbsp*******</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Bid Price Opening
+                                Date<strong>&nbsp:&nbsp*******</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Bid
+                                Price<strong>&nbsp:&nbsp*******</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <style>
+        .hide {
+            display: none !important;
+        }
+
+    </style> -->
+
+
+    <div class="card shadow mb-4">
+
+        <div class="row">
+            <div class="col-8">
+                <div class="card-header d-sm-flex align-items-center justify-content-between mb-4">
+                    <h5 class="m-0 font-weight-bold text-primary py-1">Project Start Details</h5>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card-header d-sm-flex align-items-center justify-content-between">
+                    <a href="#" class="hide d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                            class="fas fa-plus fa-sm text-white-50 pr-2"></i>Start Project P1</a>
+                    <a href="#" class="d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-warning shadow-sm"><i
+                            class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit Project P1</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body py-0">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+</div>
 
 
 {% endblock content %}

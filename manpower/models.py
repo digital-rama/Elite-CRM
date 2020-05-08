@@ -4,7 +4,6 @@ from django.utils import timezone
 from project.models import *
 
 
-
 class SuperVisors(models.Model):
     username = models.CharField(
         'Username', max_length=50, blank=False, unique=True)
@@ -47,8 +46,7 @@ class SuperVisors(models.Model):
 
 
 class labour(models.Model):
-    project = models.ForeignKey(
-        ProjectP1, on_delete=models.CASCADE, null=True)
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
     name = models.CharField('Labour Name', max_length=250, blank=False)
     dateofbirth = models.DateField('Date of Birth', default=timezone.now)
     image = models.FileField('Image', blank=False)
@@ -84,21 +82,21 @@ class labour(models.Model):
         verbose_name_plural = 'Labour List'
 
 
-class Attendance(models.Model):
-    project = models.ForeignKey(ProjectP1, on_delete=models.CASCADE)
-    date = models.DateField('Start Date', default=timezone.now)
-    labour = models.ForeignKey(labour, on_delete=models.CASCADE)
-    A = 'A'
-    B = 'B'
-    C = 'C'
-    R = 'R'
-    status = [(A, 'A'), (B, 'B'), (C, 'C'), (R, 'R')]
-    shift = models.CharField('Shift', max_length=10,
-                             choices=status, default=None)
+# class Attendance(models.Model):
+#     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+#     date = models.DateField('Start Date', default=timezone.now)
+#     labour = models.ForeignKey(labour, on_delete=models.CASCADE)
+#     A = 'A'
+#     B = 'B'
+#     C = 'C'
+#     R = 'R'
+#     status = [(A, 'A'), (B, 'B'), (C, 'C'), (R, 'R')]
+#     shift = models.CharField('Shift', max_length=10,
+#                              choices=status, default=None)
 
-    def __str__(self):
-        return str(self.labour)
+#     def __str__(self):
+#         return str(self.labour)
 
-    class Meta:
-        verbose_name = 'Attandance'
-        verbose_name_plural = 'Attandance'
+#     class Meta:
+#         verbose_name = 'Attandance'
+#         verbose_name_plural = 'Attandance'

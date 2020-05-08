@@ -103,7 +103,7 @@ class Security_Deposit(models.Model):
         verbose_name_plural = 'Security Deposit'
 
 
-class ProjectP1(models.Model):
+class ProjectStart(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
     ai_sub_date = models.DateField(
         'Agreement & Indemnity Bond Submission Date', default=timezone.now)
@@ -129,7 +129,7 @@ class ProjectP1(models.Model):
         return self.tender.tender_name+" - "+self.project_name
 
 
-class ProjectP2(models.Model):
+class ProjectRepeter(models.Model):
     Assistant = 'Assistant'
     Engineer = 'Engineer'
     Division_Office = 'Division Office'
@@ -163,7 +163,8 @@ class ProjectP2(models.Model):
 
 
 class ProjectFollowup(models.Model):
-    project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
+    project = models.ForeignKey(
+        ProjectRepeter, on_delete=models.CASCADE, null=True)
     date_time = models.DateTimeField(
         'Current Date & Time', auto_now_add=True, null=True)
     followup_by = models.CharField(max_length=200, null=True)
@@ -178,6 +179,5 @@ class ProjectFollowup(models.Model):
         return self.project.project_name+" - "+self.foolowup_to
 
 
-class superdata(models.Model):
-    superviser = models.ForeignKey(
-        on_delete=models.CASCADE, to='manpower.SuperVisors')
+class raoStatus(models.Model):
+    pass

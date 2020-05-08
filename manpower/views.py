@@ -185,8 +185,8 @@ def delete_project(request, id):
 
 @login_required
 def project_details(request, id):
-
-    context = {}
+    project_obj = Projects.objects.get(id=id)
+    context = {'project_obj': project_obj}
     return render(request, 'manpower/project_details.html', context)
 
 

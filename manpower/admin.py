@@ -4,4 +4,3 @@ from .models import *
 
 admin.site.register(SuperVisors)
 admin.site.register(labour)
-admin.site.register(Attendance)

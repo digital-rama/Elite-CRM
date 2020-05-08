@@ -42,8 +42,7 @@ class TenderAdmin(admin.ModelAdmin):
 admin.site.register(Tender, TenderAdmin)
 admin.site.register(otherContractors)
 admin.site.register(Security_Deposit)
-admin.site.register(ProjectP1)
 admin.site.register(Projects)
-admin.site.register(ProjectP2)
+admin.site.register(ProjectStart)
+admin.site.register(ProjectRepeter)
 admin.site.register(ProjectFollowup)
-
