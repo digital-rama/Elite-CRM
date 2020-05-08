@@ -5,6 +5,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
+handler404 = 'manpower.views.handler404'
+handler500 = 'manpower.views.handler500'
+
+
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
     path('tenders/', views.tenders, name='tenders'),

@@ -5,6 +5,7 @@ from manpower.models import *
 from project.models import *
 from django.contrib import messages
 from manpower.forms import *
+from django.contrib.auth.decorators import login_required
 
 
 # from .server import check_servers
@@ -12,18 +13,33 @@ from manpower.forms import *
 # Create your views here.
 
 
+# Error 404 & 500 Handeler - Start
+
+def handler404(request, exception):
+    return render(request, 'manpower/404.html')
+
+
+def handler500(request):
+    return render(request, 'manpower/404.html')
+
+# Error 404 & 500 Handeler - End
+
+
+@login_required
 def dashboard(request):
 
     context = {}
     return render(request, 'manpower/dashboard.html', context)
 
 
+@login_required
 def tenders(request):
     tender_list = Tender.objects.all()
     context = {'tender_list': tender_list}
     return render(request, 'manpower/tenders.html', context)
 
 
+@login_required
 def add_tender(request):
     if request.method == 'POST':
         form = addTender(request.POST, request.FILES)
@@ -35,6 +51,7 @@ def add_tender(request):
     return render(request, 'manpower/add_tender.html', {'form': form})
 
 
+@login_required
 def tender_details(request, uuid_no):
     tender_object = Tender.objects.get(uuid_no=uuid_no)
     other_contractor = otherContractors.objects.filter(tender=tender_object)
@@ -45,6 +62,7 @@ def tender_details(request, uuid_no):
     return render(request, 'manpower/tender_details.html', context)
 
 
+@login_required
 def edit_tender(request, id):
     editTender = Tender.objects.get(id=id)
     form = addTender(instance=editTender)
@@ -60,6 +78,7 @@ def edit_tender(request, id):
     return render(request, 'manpower/add_tender.html', context)
 
 
+@login_required
 def detete_tender(request, id):
     obj = Tender.objects.get(id=id)
     if request.method == 'POST':
@@ -70,6 +89,7 @@ def detete_tender(request, id):
     return render(request, 'manpower/delete_tender.html', context)
 
 
+@login_required
 def projects(request):
 
     all_projects = Projects.objects.all()
@@ -77,6 +97,7 @@ def projects(request):
     return render(request, 'manpower/projects.html', context)
 
 
+@login_required
 def add_contractor(request, id):
     tender = Tender.objects.get(id=id)
     if request.method == 'POST':
@@ -96,6 +117,7 @@ def add_contractor(request, id):
     return render(request, 'manpower/add_contractor.html', context)
 
 
+@login_required
 def edit_contractor(request, id, tid):
     editContractor = otherContractors.objects.get(id=id)
     tender = Tender.objects.get(id=tid)
@@ -113,12 +135,14 @@ def edit_contractor(request, id, tid):
     return render(request, 'manpower/edit_contractor.html', context)
 
 
+@login_required
 def delete_contractor(request, id):
     obj = otherContractors.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
+@login_required
 def add_project(request, id):
     if request.method == 'POST':
         form = addProject(request.POST)
@@ -134,6 +158,7 @@ def add_project(request, id):
     return render(request, 'manpower/add_project.html', context)
 
 
+@login_required
 def edit_project(request, id, tid):
     editProject = Projects.objects.get(id=id)
     tender = Tender.objects.get(id=tid)
@@ -151,12 +176,14 @@ def edit_project(request, id, tid):
     return render(request, 'manpower/add_project.html', context)
 
 
+@login_required
 def delete_project(request, id):
     obj = Projects.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
+@login_required
 def project_details(request, id):
 
     context = {}
@@ -166,7 +193,7 @@ def project_details(request, id):
 # Supervisor & Labour Views
 # Supervisor & Labour Views
 # Supervisor & Labour Views
-
+@login_required
 def supervisors(request):
     super_count = len(SuperVisors.objects.all())
     all_super = SuperVisors.objects.all()
@@ -174,6 +201,7 @@ def supervisors(request):
     return render(request, 'manpower/supervisors.html', context)
 
 
+@login_required
 def create_supervisor(request):
     if request.method == 'POST':
         form = SupervisorForm(request.POST, request.FILES)
@@ -201,6 +229,7 @@ def create_supervisor(request):
     return render(request, 'manpower/create_supervisor.html', context)
 
 
+@login_required
 def edit_supervisor(request, id):
     editSupervisor = SuperVisors.objects.get(id=id)
     form = SupervisorForm(instance=editSupervisor)
@@ -217,6 +246,7 @@ def edit_supervisor(request, id):
     return render(request, 'manpower/create_supervisor.html', context)
 
 
+@login_required
 def detete_supervisor(request, id):
     obj = SuperVisors.objects.get(id=id)
     username = obj.username
