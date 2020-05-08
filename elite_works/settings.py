@@ -127,7 +127,7 @@ STATICFILES_DIRS = (
 )
 
 # SERVER_URL = 'https://github.com/pandeyroshan/pandeyroshan.github.io/blob/master/check.json'
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
