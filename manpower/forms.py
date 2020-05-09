@@ -24,14 +24,39 @@ class otherContractorsForm(forms.ModelForm):
         exclude = ['tender']
 
 
-# class addProject(forms.ModelForm):
-#     class Meta:
-#         model = Projects
-#         fields = '__all__'
-#         exclude = ['tender']
-#         widgets = {
-#             'project_start_date': DatePickerInput(format='%Y-%m-%d'),
-#         }
+class addProject(forms.ModelForm):
+    class Meta:
+        model = Projects
+        fields = '__all__'
+        exclude = ['tender']
+        widgets = {
+            'project_start_date': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+
+class addProjectStart(forms.ModelForm):
+    class Meta:
+        model = ProjectStart
+        fields = '__all__'
+        exclude = ['project']
+        widgets = {
+            'ai_sub_date': DatePickerInput(format='%Y-%m-%d'),
+            'ahts': DatePickerInput(format='%Y-%m-%d'),
+            'asd': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+
+class securityDeposit(forms.ModelForm):
+    class Meta:
+        model = Security_Deposit
+        fields = '__all__'
+        exclude = ['project']
+        widgets = {
+            'cretion_date': DatePickerInput(format='%Y-%m-%d'),
+            'submission_date': DatePickerInput(format='%Y-%m-%d'),
+            'validity': DatePickerInput(format='%Y-%m-%d'),
+        }
+
 
 # Supervisor & Labour Forms
 # Supervisor & Labour Forms
@@ -49,11 +74,23 @@ class SupervisorForm(forms.ModelForm):
         }
 
 
-class addProject(forms.ModelForm):
+class projectRep(forms.ModelForm):
     class Meta:
-        model = Projects
+        model = ProjectRepeter
         fields = '__all__'
-        exclude = ['tender']
+        exclude = ['project']
         widgets = {
-            'project_start_date': DatePickerInput(format='%Y-%m-%d'),
+            'from_date': DatePickerInput(format='%Y-%m-%d'),
+            'to_date': DatePickerInput(format='%Y-%m-%d'),
+            'doc_handover_date': DatePickerInput(format='%Y-%m-%d'),
+        }
+
+
+class projectFollow(forms.ModelForm):
+    class Meta:
+        model = ProjectFollowup
+        fields = '__all__'
+        exclude = ['project_rep']
+        widgets = {
+            'followup_remarks': forms.Textarea(attrs={'rows': '5', 'cols': '100'}),
         }

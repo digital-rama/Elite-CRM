@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import uuid
 from manpower.models import *
+from datetime import timedelta, date
 
 # Create your models here.
 
@@ -80,6 +81,7 @@ class Security_Deposit(models.Model):
     DD = 'DD'
     FDR = 'FDR'
     BG = 'BG'
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
     STATUS = [(DD, 'DD'), (FDR, 'FDR'), (BG, 'BG')]
     deposit_type = models.CharField(
         max_length=10, choices=STATUS, default=None)
@@ -107,9 +109,8 @@ class ProjectStart(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
     ai_sub_date = models.DateField(
         'Agreement & Indemnity Bond Submission Date', default=timezone.now)
-    ai_upload = models.FileField('Agreement & Indemnity Bond Upload')
-    security_deposit = models.ForeignKey(
-        Security_Deposit, on_delete=models.CASCADE)
+    ai_upload = models.FileField(
+        'Agreement & Indemnity Bond Upload', null=True)
     ahtsn = models.CharField(
         'Agreement Handover to Supervisor Name', max_length=50)
     ahts = models.DateField(
@@ -122,14 +123,15 @@ class ProjectStart(models.Model):
         'Agreement Submission to (Person Name)', max_length=50)
 
     class Meta:
-        verbose_name = 'Project Phase - 1'
-        verbose_name_plural = 'Project Phase - 1'
+        verbose_name = 'Project Start'
+        verbose_name_plural = 'Project Start'
 
     def __str__(self):
-        return self.tender.tender_name+" - "+self.project_name
+        return self.ahtsn+" - "+self.project.project_name
 
 
 class ProjectRepeter(models.Model):
+
     Assistant = 'Assistant'
     Engineer = 'Engineer'
     Division_Office = 'Division Office'
@@ -137,6 +139,9 @@ class ProjectRepeter(models.Model):
     POSITION = [(Assistant, 'Assistant'), (Engineer, 'Engineer'),
                 (Division_Office, 'Division Office'), (Supervisor, 'Supervisor')]
     project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
+    from_date = models.DateField('From Date', default=(
+        date.today()-timedelta(days=30)).isoformat())
+    to_date = models.DateField('To Date', default=timezone.now)
     cover_letter = models.FileField('Covering Letter Copy')
     invoice_copy = models.FileField('Invoice Copy')
     atten_sheet = models.FileField('Attendance Sheet Copy')
@@ -155,29 +160,25 @@ class ProjectRepeter(models.Model):
         'All Document Handover to (Person Name)', max_length=50, null=True)
 
     class Meta:
-        verbose_name = 'Project Phase - 2'
-        verbose_name_plural = 'Project Phase - 2'
+        verbose_name = 'Project Repeter'
+        verbose_name_plural = 'Project Repeter'
 
     def __str__(self):
-        return self.project.project_name+" - "+self.doc_handover_date
+        return self.doc_handover_option+" - "+self.doc_handover_person
 
 
 class ProjectFollowup(models.Model):
-    project = models.ForeignKey(
+    project_rep = models.ForeignKey(
         ProjectRepeter, on_delete=models.CASCADE, null=True)
-    date_time = models.DateTimeField(
-        'Current Date & Time', auto_now_add=True, null=True)
-    followup_by = models.CharField(max_length=200, null=True)
-    foolowup_to = models.CharField(max_length=200, null=True)
-    foolowup_remarks = models.CharField(max_length=500, null=True)
-
-    class Meta:
-        verbose_name = 'Project Followup'
-        verbose_name_plural = 'Project Followup'
-
-    def __str__(self):
-        return self.project.project_name+" - "+self.foolowup_to
+    date_time = models.DateTimeField('Current Date & Time', auto_now_add=True)
+    followup_by = models.CharField(
+        'Follow Up Done By (person name)', null=True, max_length=200)
+    followup_to = models.CharField(
+        'Follow Up Done To (person name)', null=True, max_length=200)
+    followup_remarks = models.CharField(
+        'Follow Up Remarks', null=True, max_length=500)
 
 
-class raoStatus(models.Model):
-    pass
+class RaoStatus(models.Model):
+    project_rep = models.ForeignKey(
+        ProjectRepeter, on_delete=models.CASCADE, null=True)

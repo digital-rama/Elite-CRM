@@ -9,7 +9,7 @@
 <div class="container">
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Add/Update Projects</h1>
+        <h1 class="h3 mb-0 text-gray-800">Add/Update Project Start</h1>
 
 
         <a href="{{request.META.HTTP_REFERER}}"
@@ -23,7 +23,7 @@
         {% csrf_token %}
         {{form|crispy}}
         <div class="text-right">
-            <input type="submit" class="btn btn-info" value="Submit Project">
+            <input type="submit" class="btn btn-info" value="Submit Project Start">
         </div>
     </form>
 </div>

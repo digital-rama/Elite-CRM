@@ -23,6 +23,7 @@
         body {
             background: #007bff;
             background: linear-gradient(to right, #0062E6, #33AEFF);
+            height: 100vh;
         }
 
         .card-signin {
@@ -153,6 +154,17 @@
             }
         }
 
+        .logo {
+            display: flex;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .logo img {
+            width: 75%;
+        }
+
     </style>
 
 
@@ -161,7 +173,9 @@
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <div class="card card-signin my-5">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Elite Works CRM</h5>
+                        <div class="logo">
+                            <img class="logo1" src="{% static 'img/elite_works_logo.svg' %}" alt="Elite Works Logo">
+                        </div>
                         <form method="POST" action="" class="form-signin">
                             {% csrf_token %}
                             {{form|crispy}}
