@@ -107,5 +107,15 @@ class labourSkill(forms.ModelForm):
 
 class labourDesig(forms.ModelForm):
     class Meta:
-        model = labourSkillType
+        model = labourDesignation
         fields = '__all__'
+
+
+class addLabour(forms.ModelForm):
+    class Meta:
+        model = labour
+        fields = '__all__'
+        exclude = ['project']
+        widgets = {
+            'dateofbirth': DatePickerInput(format='%Y-%m-%d')
+        }

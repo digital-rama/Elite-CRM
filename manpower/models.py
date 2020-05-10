@@ -79,27 +79,28 @@ class labour(models.Model):
                                    verbose_name='Labour Skill Type', on_delete=models.SET_NULL, null=True)
     name = models.CharField('Labour Name', max_length=250, blank=False)
     dateofbirth = models.DateField('Date of Birth', default=timezone.now)
-    image = models.FileField('Labour Profile Picture', blank=False)
+    image = models.FileField('Labour Profile Picture', blank=True, null=True)
     mobile_number = models.CharField('Mobile Number', max_length=15)
-    alter_number = models.CharField('Alternate Number', max_length=15)
-    email = models.EmailField('Email Address', null=True, blank=True)
+    alter_number = models.CharField(
+        'Alternate Number', max_length=15, blank=True, null=True)
     address = models.CharField('Address', max_length=400)
-    resume = models.FileField(upload_to='Resume')
+    resume = models.FileField(blank=True, null=True)
     aadhar_number = models.CharField('Aadhar Number', max_length=20)
     aadhar_photo = models.FileField(
         'Aadhar Card Photo', blank=True)
-    pan_number = models.CharField('PAN Number', max_length=20)
+    pan_number = models.CharField(
+        'PAN Number', max_length=20, blank=True, null=True)
     pan_photo = models.FileField(
-        'PAN Card Photo', blank=False)
+        'PAN Card Photo', blank=True, null=True)
     highest_qual = models.CharField('Highest Qualifications', max_length=200)
     highest_qual_photo = models.FileField(
-        'Proof of Highest Qualification', blank=False)
+        'Proof of Highest Qualification', blank=True, null=True)
     ten_certi = models.FileField(
-        '10th Certificate Upload', blank=False)
+        '10th Certificate Upload', blank=True, null=True)
     twelve_certi = models.FileField(
-        '12th Certificate Upload', blank=False)
+        '12th Certificate Upload', blank=True, null=True)
     tech_certificate_name = models.CharField(
-        'Technical Certificate Name', max_length=300)
+        'Technical Certificate Name', max_length=300, blank=True, null=True)
     tech_certi = models.FileField(
         'Technical Certificate Upload', blank=True)
     UAN_number = models.CharField('UAN Number', max_length=200, null=True)
@@ -112,21 +113,21 @@ class labour(models.Model):
         verbose_name_plural = 'Labour List'
 
 
-# class Attendance(models.Model):
-#     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-#     date = models.DateField('Start Date', default=timezone.now)
-#     labour = models.ForeignKey(labour, on_delete=models.CASCADE)
-#     A = 'A'
-#     B = 'B'
-#     C = 'C'
-#     R = 'R'
-#     status = [(A, 'A'), (B, 'B'), (C, 'C'), (R, 'R')]
-#     shift = models.CharField('Shift', max_length=10,
-#                              choices=status, default=None)
+class Attendance(models.Model):
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    date = models.DateField('Start Date', default=timezone.now)
+    labour = models.ForeignKey(labour, on_delete=models.CASCADE)
+    A = 'A'
+    B = 'B'
+    C = 'C'
+    R = 'R'
+    status = [(A, 'A'), (B, 'B'), (C, 'C'), (R, 'R')]
+    shift = models.CharField('Shift', max_length=10,
+                             choices=status, default=None)
 
-#     def __str__(self):
-#         return str(self.labour)
+    def __str__(self):
+        return str(self.labour)
 
-#     class Meta:
-#         verbose_name = 'Attandance'
-#         verbose_name_plural = 'Attandance'
+    class Meta:
+        verbose_name = 'Attandance'
+        verbose_name_plural = 'Attandance'

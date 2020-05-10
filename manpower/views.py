@@ -194,7 +194,9 @@ def project_details(request, id):
     project_start_obj = ProjectStart.objects.filter(project=project_obj)
     security_deposit_obj = Security_Deposit.objects.filter(project=project_obj)
     project_repeter = ProjectRepeter.objects.all()
+    labour_obj = labour.objects.filter(project=project_obj)
     prlen = len(project_repeter)
+    lablen = len(labour_obj)
     # Submit & Edit Project Show & hide
     if len(project_start_obj) >= 1:
         sp = 'hide'
@@ -221,6 +223,7 @@ def project_details(request, id):
                'project_start_obj': project_start_obj, 'ep': ep,
                'security_deposit_obj': security_deposit_obj, 'asd': asd,
                'esd': esd, 'sp': sp, 'project_repeter': project_repeter, 'prlen': prlen,
+               'labour_obj': labour_obj, 'lablen': lablen,
                }
     return render(request, 'manpower/project_details.html', context)
 
@@ -461,7 +464,7 @@ def addlabskill(request):
         form = labourSkill()
 
     context = {'form': form}
-    return render(request, 'manpower/addlabdeg.html', context)
+    return render(request, 'manpower/addlabskill.html', context)
 
 
 @login_required
@@ -476,3 +479,56 @@ def delete_labdeg(request, id):
     obj = labourDesignation.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def addlabour(request, id):
+    if request.method == 'POST':
+        form = addLabour(request.POST, request.FILES)
+        if form.is_valid():
+            form_data = form.save(commit=False)
+            form_data.project = Projects.objects.get(id=id)
+            form_data.save()
+            return redirect('/project_details/' + str(Projects.objects.get(id=id).id))
+    else:
+        form = addLabour()
+
+    context = {'form': form}
+    return render(request, 'manpower/add_project.html', context)
+
+
+@login_required
+def edit_Labour(request, id, pid):
+    editlabour = labour.objects.get(id=id)
+    form = addLabour(instance=editlabour)
+    if request.method == 'POST':
+        form = addLabour(request.POST, request.FILES, instance=editlabour)
+        if form.is_valid():
+            form.save()
+            return redirect('/project_details/' + str(Projects.objects.get(id=pid).id))
+
+        else:
+            form = addLabour(instance=editlabour)
+
+    context = {'form': form}
+    return render(request, 'manpower/add_project.html', context)
+
+
+@login_required
+def delete_labour(request, id, pid):
+    obj = labour.objects.get(id=id)
+    project_obj = Projects.objects.get(id=pid)
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('/project_details/' + str(Projects.objects.get(id=pid).id))
+
+    context = {'obj': obj, 'project_obj': project_obj}
+    return render(request, 'manpower/delete_labour.html', context)
+
+
+@login_required
+def all_labours(request):
+    all_labours = labour.objects.all()
+
+    context = {'all_labours': all_labours}
+    return render(request, 'manpower/all_labours.html', context)

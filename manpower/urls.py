@@ -53,6 +53,12 @@ urlpatterns = [
     path('addlabskill/', views.addlabskill, name='addlabskill'),
     path('delete_labskill/<int:id>', views.delete_labskill, name='delete_labskill'),
     path('delete_labdeg/<int:id>', views.delete_labdeg, name='delete_labdeg'),
+    path('addlabour/<int:id>', views.addlabour, name='addlabour'),
+    path('edit_Labour/<int:id>/<int:pid>',
+         views.edit_Labour, name='edit_Labour'),
+    path('delete_labour/<int:id>/<int:pid>',
+         views.delete_labour, name='delete_labour'),
+    path('all_labours/', views.all_labours, name='all_labours'),
     path('login/', auth_views.LoginView.as_view(template_name='manpower/login.html'), name='login'),
     path('logoutuser/', auth_views.LogoutView.as_view(
         next_page=settings.LOGOUT_REDIRECT_URL), name='logoutuser'),

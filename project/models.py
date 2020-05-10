@@ -158,6 +158,8 @@ class ProjectRepeter(models.Model):
         'All Document Handover to (Options)', choices=POSITION, max_length=200, default=None)
     doc_handover_person = models.CharField(
         'All Document Handover to (Person Name)', max_length=50, null=True)
+    Remarks = models.CharField(
+        'Project Repeter Remarks', max_length=50, null=True)
 
     class Meta:
         verbose_name = 'Project Repeter'
