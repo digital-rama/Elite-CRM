@@ -45,11 +45,41 @@ class SuperVisors(models.Model):
         verbose_name_plural = 'Supervisors List'
 
 
+class labourSkillType(models.Model):
+    skill_type = models.CharField(
+        'Labour Skill Type', max_length=50, null=True)
+    skill_type_amount = models.CharField(
+        'Skill Type Amount', max_length=50, null=True)
+
+    def __str__(self):
+        return self.skill_type
+
+    class Meta:
+        verbose_name = 'Labour Skill Type'
+        verbose_name_plural = 'Labour Skill Type'
+
+
+class labourDesignation(models.Model):
+    designation = models.CharField(
+        'Labour Designation', max_length=50, null=True)
+
+    def __str__(self):
+        return self.designation
+
+    class Meta:
+        verbose_name = 'Labour Designation'
+        verbose_name_plural = 'Labour Designation'
+
+
 class labour(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
+    designation = models.ForeignKey(labourDesignation,
+                                    verbose_name='Labour Designation', on_delete=models.SET_NULL, null=True)
+    skill_type = models.ForeignKey(labourSkillType,
+                                   verbose_name='Labour Skill Type', on_delete=models.SET_NULL, null=True)
     name = models.CharField('Labour Name', max_length=250, blank=False)
     dateofbirth = models.DateField('Date of Birth', default=timezone.now)
-    image = models.FileField('Image', blank=False)
+    image = models.FileField('Labour Profile Picture', blank=False)
     mobile_number = models.CharField('Mobile Number', max_length=15)
     alter_number = models.CharField('Alternate Number', max_length=15)
     email = models.EmailField('Email Address', null=True, blank=True)
@@ -57,7 +87,7 @@ class labour(models.Model):
     resume = models.FileField(upload_to='Resume')
     aadhar_number = models.CharField('Aadhar Number', max_length=20)
     aadhar_photo = models.FileField(
-        'Aadhar Card Photo', upload_to='Aadhar_photo', blank=True)
+        'Aadhar Card Photo', blank=True)
     pan_number = models.CharField('PAN Number', max_length=20)
     pan_photo = models.FileField(
         'PAN Card Photo', blank=False)
@@ -65,13 +95,13 @@ class labour(models.Model):
     highest_qual_photo = models.FileField(
         'Proof of Highest Qualification', blank=False)
     ten_certi = models.FileField(
-        '10th Certificate', blank=False)
+        '10th Certificate Upload', blank=False)
     twelve_certi = models.FileField(
-        '12th Certificate', blank=False)
+        '12th Certificate Upload', blank=False)
     tech_certificate_name = models.CharField(
         'Technical Certificate Name', max_length=300)
     tech_certi = models.FileField(
-        'Technical Certificate', blank=True)
+        'Technical Certificate Upload', blank=True)
     UAN_number = models.CharField('UAN Number', max_length=200, null=True)
 
     def __str__(self):

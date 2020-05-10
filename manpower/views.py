@@ -180,14 +180,11 @@ def edit_project(request, id, tid):
 def delete_project(request, id, tid):
     obj = Projects.objects.get(id=id)
     tender_obj = Tender.objects.get(id=tid)
-    project_start_len = len(ProjectStart.objects.filter(project=obj))
-    security_deposit_len = len(Security_Deposit.objects.filter(project=obj))
     if request.method == 'POST':
         obj.delete()
         return redirect('/tender_details/' + str(Tender.objects.get(id=tid).id))
 
-    context = {'obj': obj, 'tender_obj': tender_obj,
-               'project_start_len': project_start_len, 'security_deposit_len': security_deposit_len}
+    context = {'obj': obj, 'tender_obj': tender_obj, }
     return render(request, 'manpower/delete_project.html', context)
 
 
@@ -223,7 +220,8 @@ def project_details(request, id):
     context = {'project_obj': project_obj,
                'project_start_obj': project_start_obj, 'ep': ep,
                'security_deposit_obj': security_deposit_obj, 'asd': asd,
-               'esd': esd, 'sp': sp, 'project_repeter': project_repeter, 'prlen': prlen}
+               'esd': esd, 'sp': sp, 'project_repeter': project_repeter, 'prlen': prlen,
+               }
     return render(request, 'manpower/project_details.html', context)
 
 
@@ -293,6 +291,7 @@ def edit_security_deposit(request, id):
     return render(request, 'manpower/security_deposit.html', context)
 
 
+@login_required
 def project_repeter(request, id):
     if request.method == 'POST':
         form = projectRep(request.POST,  request.FILES)
@@ -308,19 +307,55 @@ def project_repeter(request, id):
     return render(request, 'manpower/project_repeter.html', context)
 
 
-def create_followup(request, id):
+def edit_pr(request, id, pid):
+    edit_Project_repeter = ProjectRepeter.objects.get(id=id)
+    if request.method == 'POST':
+        form = projectRep(request.POST,  request.FILES,
+                          instance=edit_Project_repeter)
+        if form.is_valid():
+            form.save()
+
+            return redirect('/project_details/' + str(Projects.objects.get(id=pid).id))
+    else:
+        form = projectRep(instance=edit_Project_repeter)
+
+    context = {'form': form}
+    return render(request, 'manpower/edit_pr.html', context)
+
+
+def delete_pr(request, id, pid):
+    pr_obj = ProjectRepeter.objects.get(id=id)
+    project_obj = Projects.objects.get(id=pid)
+    if request.method == 'POST':
+        pr_obj.delete()
+        return redirect('/project_details/' + str(Projects.objects.get(id=pid).id))
+
+    context = {'pr_obj': pr_obj, 'project_obj': project_obj}
+    return render(request, 'manpower/delete_pr.html', context)
+
+
+def create_followup(request, id, pid):
     if request.method == 'POST':
         form = projectFollow(request.POST)
         if form.is_valid():
             form_data = form.save(commit=False)
             form_data.project_rep = ProjectRepeter.objects.get(id=id)
             form_data.save()
-            return redirect('/project_details/' + str(Projects.objects.get(id=id).id))
+            return redirect('/project_details/' + str(Projects.objects.get(id=pid).id))
     else:
         form = projectFollow()
 
-    context = {'form': form}
+    context = {'form': form, }
     return render(request, 'manpower/create_followup.html', context)
+
+
+def view_followup(request, id, pid):
+    pr_obj = ProjectRepeter.objects.get(id=id)
+    view_follow = ProjectFollowup.objects.filter(project_rep=pr_obj)
+    project_obj = Projects.objects.get(id=pid)
+
+    context = {'view_follow': view_follow, 'project_obj': project_obj}
+    return render(request, 'manpower/view_followup.html', context)
 
 
 # Supervisor & Labour Views
@@ -393,3 +428,51 @@ def detete_supervisor(request, id):
 
     context = {'obj': obj}
     return render(request, 'manpower/delete_Supervisor.html', context)
+
+
+def laboursnd(request):
+    labour_skill = labourSkillType.objects.all()
+    labour_desig = labourDesignation.objects.all()
+
+    context = {'labour_skill': labour_skill, 'labour_desig': labour_desig}
+    return render(request, 'manpower/laboursnd.html', context)
+
+
+def addlabdeg(request):
+    if request.method == 'POST':
+        form = labourDesig(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/laboursnd/')
+    else:
+        form = labourDesig()
+
+    context = {'form': form}
+    return render(request, 'manpower/addlabdeg.html', context)
+
+
+def addlabskill(request):
+    if request.method == 'POST':
+        form = labourSkill(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/laboursnd/')
+    else:
+        form = labourSkill()
+
+    context = {'form': form}
+    return render(request, 'manpower/addlabdeg.html', context)
+
+
+@login_required
+def delete_labskill(request, id):
+    obj = labourSkillType.objects.get(id=id)
+    obj.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def delete_labdeg(request, id):
+    obj = labourDesignation.objects.get(id=id)
+    obj.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

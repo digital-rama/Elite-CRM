@@ -4,3 +4,5 @@ from .models import *
 
 admin.site.register(SuperVisors)
 admin.site.register(labour)
+admin.site.register(labourSkillType)
+admin.site.register(labourDesignation)

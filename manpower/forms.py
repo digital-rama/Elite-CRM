@@ -58,22 +58,6 @@ class securityDeposit(forms.ModelForm):
         }
 
 
-# Supervisor & Labour Forms
-# Supervisor & Labour Forms
-# Supervisor & Labour Forms
-
-
-class SupervisorForm(forms.ModelForm):
-    class Meta:
-        model = SuperVisors
-        fields = '__all__'
-        widgets = {
-            'password': forms.PasswordInput(attrs={'placeholder': '********', 'autocomplete': 'off', 'data-toggle': 'password'}),
-            're_password': forms.PasswordInput(attrs={'placeholder': '********', 'autocomplete': 'off', 'data-toggle': 'password'}),
-            'dateofbirth': DatePickerInput(format='%Y-%m-%d')
-        }
-
-
 class projectRep(forms.ModelForm):
     class Meta:
         model = ProjectRepeter
@@ -94,3 +78,34 @@ class projectFollow(forms.ModelForm):
         widgets = {
             'followup_remarks': forms.Textarea(attrs={'rows': '5', 'cols': '100'}),
         }
+
+
+# Supervisor & Labour Forms
+# Supervisor & Labour Forms
+# Supervisor & Labour Forms
+
+
+class SupervisorForm(forms.ModelForm):
+    class Meta:
+        model = SuperVisors
+        fields = '__all__'
+        widgets = {
+            'password': forms.PasswordInput(attrs={'placeholder': '********', 'autocomplete': 'off', 'data-toggle': 'password'}),
+            're_password': forms.PasswordInput(attrs={'placeholder': '********', 'autocomplete': 'off', 'data-toggle': 'password'}),
+            'dateofbirth': DatePickerInput(format='%Y-%m-%d')
+        }
+
+
+class labourSkill(forms.ModelForm):
+    class Meta:
+        model = labourSkillType
+        fields = '__all__'
+        widgets = {
+            'skill_type_amount': forms.NumberInput(attrs={'placeholder': 'Enter the Skill Type Amount'}),
+        }
+
+
+class labourDesig(forms.ModelForm):
+    class Meta:
+        model = labourSkillType
+        fields = '__all__'

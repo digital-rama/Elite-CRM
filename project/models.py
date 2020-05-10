@@ -168,15 +168,23 @@ class ProjectRepeter(models.Model):
 
 
 class ProjectFollowup(models.Model):
+
+    Open = 'Open'
+    Close = 'Close'
+    STATUS = [(Open, 'Open'), (Close, 'Close')]
+
+    Assistant_Engineer = 'Assistant Engineer'
+    Executive_Engineer_Division = 'Executive Engineer - Division'
+    Regional_Account_Office = 'Regional Account Office'
+    BILL_POSITION = [(Assistant_Engineer, 'Assistant Engineer'), (Executive_Engineer_Division,
+                                                                  'Executive Engineer - Division'), (Regional_Account_Office, 'Regional Account Office')]
     project_rep = models.ForeignKey(
         ProjectRepeter, on_delete=models.CASCADE, null=True)
     date_time = models.DateTimeField('Current Date & Time', auto_now_add=True)
-    followup_by = models.CharField(
-        'Follow Up Done By (person name)', null=True, max_length=200)
-    followup_to = models.CharField(
-        'Follow Up Done To (person name)', null=True, max_length=200)
-    followup_remarks = models.CharField(
-        'Follow Up Remarks', null=True, max_length=500)
+    bill_position = models.CharField(
+        'Bill Position', choices=BILL_POSITION, max_length=100, default='Regional Account Office')
+    status = models.CharField(
+        'Follow Up Status', choices=STATUS, max_length=100, default='Open')
 
 
 class RaoStatus(models.Model):
