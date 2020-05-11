@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "+e^&#+#(yw73wfi0p+e1w2%+d=y9ry&9h)o-o5f9#0d*9qk(99"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['elitecrmapp.herokuapp.com', '127.0.0.1']
 
