@@ -4,6 +4,11 @@ from django.utils import timezone
 from project.models import *
 
 
+class profilePic(models.Model):
+    profile_pic = models.FileField(
+        'Company Profile Picture', blank=False, null=False)
+
+
 class SuperVisors(models.Model):
     username = models.CharField(
         'Username', max_length=50, blank=False, unique=True)
@@ -115,7 +120,7 @@ class labour(models.Model):
 
 class Attendance(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    date = models.DateField('Start Date', default=timezone.now)
+    date = models.DateField('Attendance Date', default=timezone.now)
     labour = models.ForeignKey(labour, on_delete=models.CASCADE)
     A = 'A'
     B = 'B'

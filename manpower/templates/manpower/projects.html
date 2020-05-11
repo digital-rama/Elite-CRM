@@ -26,9 +26,10 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">All Projects</h1>
 
-        <a href="" onclick="history.go(-1)"
-            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-backward fa-sm text-white-50 pr-2"></i>Go Back</a>
+        <h4>Total Projects <span class="badge badge-info">{{projlen}}</span></h4>
+        <h4 class="d-none">Initialized Projects <span class="badge badge-success">New</span></h4>
+        <h4 class="d-none">Uninitialized Projects <span class="badge badge-warning">New</span></h4>
+
     </div>
 
 
@@ -68,6 +69,7 @@
                             <th>{{ap.project_name}}</th>
                             <th>{{ap.project_start_date}}</th>
                             <th>
+
                                 <div class="text-center d-none">
                                     <a href="{% url 'project_details' ap.id %}"
                                         class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-success shadow-sm"><i

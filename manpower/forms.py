@@ -119,3 +119,13 @@ class addLabour(forms.ModelForm):
         widgets = {
             'dateofbirth': DatePickerInput(format='%Y-%m-%d')
         }
+
+
+class labourAttendance(forms.ModelForm):
+    class Meta:
+        model = labour
+        fields = '__all__'
+        exclude = ['project']
+        widgets = {
+            'dateofbirth': DatePickerInput(format='%Y-%m-%d')
+        }

@@ -1,0 +1,27 @@
+{% extends 'manpower/base.html' %}
+
+
+{% block content %}
+
+<script>
+    setTimeout(function () {
+        window.location.href = "{% url 'dashboard' %}";
+    }, 5000);
+</script>
+
+<div class="container-fluid">
+
+    <body>
+        <div class="container-fluid">
+            <div class="jumbotron">
+                <h1 class="display-3 text-danger">Unauthorize Access</h1>
+                <br>
+                <h1 class="display-5">Hey&nbsp;{{name}},&nbsp;You are not Authorized to Access this Page.</h1>
+                <br>
+                <p class="lead">Contact your Administrtor, If you think this this is an Error</p>
+                <hr class="my-4">
+            </div>
+        </div>
+</div>
+
+{% endblock content %}

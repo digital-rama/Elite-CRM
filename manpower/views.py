@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from manpower.models import *
 from project.models import *
 from django.contrib import messages
 from manpower.forms import *
 from django.contrib.auth.decorators import login_required
+from manpower.decoraters import *
 
 
 # from .server import check_servers
@@ -15,31 +16,43 @@ from django.contrib.auth.decorators import login_required
 
 # Error 404 & 500 Handeler - Start
 
-def handler404(request, exception):
+def error_404_views(request, exception):
     return render(request, 'manpower/404.html')
 
 
-def handler500(request):
+def error_500_views(request):
     return render(request, 'manpower/404.html')
 
 # Error 404 & 500 Handeler - End
 
 
-@login_required
+def uaaccess(request):
+    name = request.user.first_name
+    context = {'name': name}
+    return render(request, 'manpower/uaaccess.html', context)
+
+
+@admin_only
 def dashboard(request):
 
     context = {}
     return render(request, 'manpower/dashboard.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['supervisor'])
+def super_dashboard(request):
+    context = {}
+    return render(request, 'manpower/super_dashboard.html', context)
+
+
+@allowed_users(allowed_roles=['master', 'admin'])
 def tenders(request):
     tender_list = Tender.objects.all()
     context = {'tender_list': tender_list}
     return render(request, 'manpower/tenders.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def add_tender(request):
     if request.method == 'POST':
         form = addTender(request.POST, request.FILES)
@@ -51,7 +64,7 @@ def add_tender(request):
     return render(request, 'manpower/add_tender.html', {'form': form})
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def tender_details(request, id):
     tender_object = Tender.objects.get(id=id)
     other_contractor = otherContractors.objects.filter(tender=tender_object)
@@ -64,7 +77,7 @@ def tender_details(request, id):
     return render(request, 'manpower/tender_details.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def edit_tender(request, id):
     editTender = Tender.objects.get(id=id)
     form = addTender(instance=editTender)
@@ -80,7 +93,7 @@ def edit_tender(request, id):
     return render(request, 'manpower/add_tender.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def detete_tender(request, id):
     obj = Tender.objects.get(id=id)
     if request.method == 'POST':
@@ -91,15 +104,21 @@ def detete_tender(request, id):
     return render(request, 'manpower/delete_tender.html', context)
 
 
-@login_required
 def projects(request):
+    if request.user.is_staff:
+        all_projects = Projects.objects.all()
+        projlen = len(all_projects)
+    else:
+        usern = request.user.username
+        super_id = SuperVisors.objects.get(username=usern)
+        all_projects = Projects.objects.filter(superviser=super_id)
+        projlen = len(all_projects)
 
-    all_projects = Projects.objects.all()
-    context = {'all_projects': all_projects}
+    context = {'all_projects': all_projects, 'projlen': projlen}
     return render(request, 'manpower/projects.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def add_contractor(request, id):
     tender = Tender.objects.get(id=id)
     if request.method == 'POST':
@@ -119,7 +138,7 @@ def add_contractor(request, id):
     return render(request, 'manpower/add_contractor.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def edit_contractor(request, id, tid):
     editContractor = otherContractors.objects.get(id=id)
     form = otherContractorsForm(instance=editContractor)
@@ -136,14 +155,14 @@ def edit_contractor(request, id, tid):
     return render(request, 'manpower/edit_contractor.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def delete_contractor(request, id):
     obj = otherContractors.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def add_project(request, id):
     if request.method == 'POST':
         form = addProject(request.POST)
@@ -159,7 +178,7 @@ def add_project(request, id):
     return render(request, 'manpower/add_project.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def edit_project(request, id, tid):
     editProject = Projects.objects.get(id=id)
     form = addProject(instance=editProject)
@@ -176,7 +195,7 @@ def edit_project(request, id, tid):
     return render(request, 'manpower/add_project.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def delete_project(request, id, tid):
     obj = Projects.objects.get(id=id)
     tender_obj = Tender.objects.get(id=tid)
@@ -188,7 +207,6 @@ def delete_project(request, id, tid):
     return render(request, 'manpower/delete_project.html', context)
 
 
-@login_required
 def project_details(request, id):
     project_obj = Projects.objects.get(id=id)
     project_start_obj = ProjectStart.objects.filter(project=project_obj)
@@ -228,6 +246,7 @@ def project_details(request, id):
     return render(request, 'manpower/project_details.html', context)
 
 
+@allowed_users(allowed_roles=['master', 'admin'])
 def add_project_start(request, id):
     if request.method == 'POST':
         form = addProjectStart(request.POST,  request.FILES)
@@ -243,7 +262,7 @@ def add_project_start(request, id):
     return render(request, 'manpower/add_project_start.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def edit_project_start(request, id, pid):
     editStartProject = ProjectStart.objects.get(id=id)
     form = addProjectStart(instance=editStartProject)
@@ -261,6 +280,7 @@ def edit_project_start(request, id, pid):
     return render(request, 'manpower/add_project_start.html', context)
 
 
+@allowed_users(allowed_roles=['master', 'admin'])
 def security_deposit(request, id):
     if request.method == 'POST':
         form = securityDeposit(request.POST,  request.FILES)
@@ -276,7 +296,7 @@ def security_deposit(request, id):
     return render(request, 'manpower/security_deposit.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def edit_security_deposit(request, id):
     editSecurityDeposit = Security_Deposit.objects.get(id=id)
     form = securityDeposit(instance=editSecurityDeposit)
@@ -294,7 +314,7 @@ def edit_security_deposit(request, id):
     return render(request, 'manpower/security_deposit.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def project_repeter(request, id):
     if request.method == 'POST':
         form = projectRep(request.POST,  request.FILES)
@@ -310,6 +330,7 @@ def project_repeter(request, id):
     return render(request, 'manpower/project_repeter.html', context)
 
 
+@allowed_users(allowed_roles=['master', 'admin'])
 def edit_pr(request, id, pid):
     edit_Project_repeter = ProjectRepeter.objects.get(id=id)
     if request.method == 'POST':
@@ -326,6 +347,7 @@ def edit_pr(request, id, pid):
     return render(request, 'manpower/edit_pr.html', context)
 
 
+@allowed_users(allowed_roles=['master', 'admin'])
 def delete_pr(request, id, pid):
     pr_obj = ProjectRepeter.objects.get(id=id)
     project_obj = Projects.objects.get(id=pid)
@@ -366,7 +388,7 @@ def view_followup(request, id, pid):
 # Supervisor & Labour Views
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def supervisors(request):
     super_count = len(SuperVisors.objects.all())
     all_super = SuperVisors.objects.all()
@@ -374,7 +396,7 @@ def supervisors(request):
     return render(request, 'manpower/supervisors.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def create_supervisor(request):
     if request.method == 'POST':
         form = SupervisorForm(request.POST, request.FILES)
@@ -391,6 +413,8 @@ def create_supervisor(request):
                 user.last_name = splitname[1]
                 user.save()
                 form.save()
+                group = Group.objects.get(name='supervisor')
+                user.groups.add(group)
                 return redirect('/supervisors/')
             else:
                 messages.error(
@@ -402,7 +426,7 @@ def create_supervisor(request):
     return render(request, 'manpower/create_supervisor.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def edit_supervisor(request, id):
     editSupervisor = SuperVisors.objects.get(id=id)
     form = SupervisorForm(instance=editSupervisor)
@@ -419,7 +443,7 @@ def edit_supervisor(request, id):
     return render(request, 'manpower/create_supervisor.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def detete_supervisor(request, id):
     obj = SuperVisors.objects.get(id=id)
     username = obj.username
@@ -433,6 +457,7 @@ def detete_supervisor(request, id):
     return render(request, 'manpower/delete_Supervisor.html', context)
 
 
+@allowed_users(allowed_roles=['master', 'admin'])
 def laboursnd(request):
     labour_skill = labourSkillType.objects.all()
     labour_desig = labourDesignation.objects.all()
@@ -441,6 +466,7 @@ def laboursnd(request):
     return render(request, 'manpower/laboursnd.html', context)
 
 
+@allowed_users(allowed_roles=['master', 'admin'])
 def addlabdeg(request):
     if request.method == 'POST':
         form = labourDesig(request.POST)
@@ -454,6 +480,7 @@ def addlabdeg(request):
     return render(request, 'manpower/addlabdeg.html', context)
 
 
+@allowed_users(allowed_roles=['master', 'admin'])
 def addlabskill(request):
     if request.method == 'POST':
         form = labourSkill(request.POST)
@@ -467,21 +494,20 @@ def addlabskill(request):
     return render(request, 'manpower/addlabskill.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def delete_labskill(request, id):
     obj = labourSkillType.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def delete_labdeg(request, id):
     obj = labourDesignation.objects.get(id=id)
     obj.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
-@login_required
 def addlabour(request, id):
     if request.method == 'POST':
         form = addLabour(request.POST, request.FILES)
@@ -497,7 +523,7 @@ def addlabour(request, id):
     return render(request, 'manpower/add_project.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def edit_Labour(request, id, pid):
     editlabour = labour.objects.get(id=id)
     form = addLabour(instance=editlabour)
@@ -514,7 +540,7 @@ def edit_Labour(request, id, pid):
     return render(request, 'manpower/add_project.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def delete_labour(request, id, pid):
     obj = labour.objects.get(id=id)
     project_obj = Projects.objects.get(id=pid)
@@ -526,9 +552,15 @@ def delete_labour(request, id, pid):
     return render(request, 'manpower/delete_labour.html', context)
 
 
-@login_required
+@allowed_users(allowed_roles=['master', 'admin'])
 def all_labours(request):
     all_labours = labour.objects.all()
 
     context = {'all_labours': all_labours}
     return render(request, 'manpower/all_labours.html', context)
+
+
+def labour_attendance(request, id):
+
+    context = {}
+    return render(request, 'manpower/attendance.html', context)

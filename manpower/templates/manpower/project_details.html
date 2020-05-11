@@ -2,13 +2,15 @@
 
 
 {% block content %}
-
+<!-- Main Buttons & Card -->
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Project Details</h1>
-        <a href="#" class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+        <a href="{% url 'projects' %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-suitcase fa-sm text-white-50 pr-2"></i>All Projects</a>
-        <a href="#" class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
+        <a href="{% url 'labour_attendance' project_obj.id %}"
+            class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
                 class="fas fa-users fa-sm text-white-50 pr-2"></i>Mark Attendance</a>
         <a href="{% url 'addlabour' project_obj.id %}"
             class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
@@ -95,19 +97,20 @@
         }
 
     </style>
+</div>
+<!-- Main Buttons & Card - End-->
 
-
-
-    <div class="card shadow mb-4">
-        <!-- Card Header - Accordion -->
-        <a href="#allocatedLabours" class="d-block card-header py-3" data-toggle="collapse" role="button"
-            aria-expanded="true" aria-controls="allocatedPLabours>
-            <h6 class=" m-0 font-weight-bold text-primary">Allocated Labour Details &nbsp;&nbsp;|&nbsp;&nbsp;Total
+<!-- Allocated Labour Detaiils -->
+<div class="card shadow mb-4">
+    <!-- Card Header - Accordion -->
+    <a href="#allocatedProjects" class="d-block card-header py-3" data-toggle="collapse" role="button"
+        aria-expanded="true" aria-controls="allocatedProjects">
+        <h6 class="m-0 font-weight-bold text-primary">Allocated Labour Details &nbsp;&nbsp;|&nbsp;&nbsp;Total
             Allocated Labours :&nbsp;{{lablen}}</h6>
-        </a>
-        <!-- Card Content - Collapse -->
-        <div class="collapse" id="allocatedPLabours>
-            <div class=" card-body">
+    </a>
+    <!-- Card Content - Collapse -->
+    <div class="collapse" id="allocatedProjects">
+        <div class="card-body">
 
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -155,280 +158,280 @@
                     {% endfor %}
                 </tbody>
             </table>
+
         </div>
     </div>
 </div>
+<!-- Allocated Labour Detaiils - End -->
 
 
 
-<div class="container-fluid">
-    <div class="card shadow mb-4">
 
-        <div class="row">
-            <div class="col-lg-8 col-md-8 col-xs-12">
-                <div class="card-header d-sm-flex align-items-center justify-content-between">
-                    <h5 class="m-0 font-weight-bold text-primary py-1">Project Start Details</h5>
-                    <a href="{% url 'security_deposit' project_obj.id %}"
-                        class="{{asd}} d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                            class="fas fa-plus fa-sm text-white-50 pr-2"></i>Add Security Deposit</a>
-                    {% for sdo in security_deposit_obj %}
-                    <a href="{% url 'edit_security_deposit' sdo.id %}"
-                        class="{{esd}} d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
-                            class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit Security Deposit</a>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-xs-12">
-                <div class="card-header d-sm-flex align-items-center justify-content-end">
+<!-- Project Start Details -->
+<div class="card shadow mb-4">
 
-                    <a href="{% url 'add_project_start' project_obj.id %}"
-                        class="{{sp}} d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                            class="fas fa-plus fa-sm text-white-50 pr-2"></i>Start Project P1</a>
-
-                    {% for pso in project_start_obj  %}
-                    <a href="{% url 'edit_project_start' pso.id project_obj.id %}"
-                        class="{{ep}} d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
-                            class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit Project P1</a>
-                    {% endfor %}
-                </div>
-
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-xs-12">
+            <div class="card-header d-sm-flex align-items-center justify-content-between">
+                <h5 class="m-0 font-weight-bold text-primary py-1">Project Start Details</h5>
+                {% if request.user.is_staff %}
+                <a href="{% url 'security_deposit' project_obj.id %}"
+                    class="{{asd}} d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-plus fa-sm text-white-50 pr-2"></i>Add Security Deposit</a>
+                {% for sdo in security_deposit_obj %}
+                <a href="{% url 'edit_security_deposit' sdo.id %}"
+                    class="{{esd}} d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
+                        class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit Security Deposit</a>
+                {% endfor %}
+                {% endif %}
 
             </div>
         </div>
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="card-header d-sm-flex align-items-center justify-content-end">
+                {% if request.user.is_staff %}
+                <a href="{% url 'add_project_start' project_obj.id %}"
+                    class="{{sp}} d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-plus fa-sm text-white-50 pr-2"></i>Start Project P1</a>
 
-
-        <div class="card-body py-0" id="tab">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Project Name</th>
-                            <th data-toggle="tooltip" data-placement="top"
-                                title="Agreement & Indemnity Bond Submission Date">AI Sub Date</th>
-                            <th data-toggle="tooltip" data-placement="top"
-                                title="Agreement Handover to Supervisor Name">
-                                AHTSN</th>
-                            <th data-toggle="tooltip" data-placement="top"
-                                title="Agreement Handover to Supervisor Date">
-                                AHTSD</th>
-                            <th data-toggle="tooltip" data-placement="top" title="Agreement Submission Date">ASD</th>
-                            <th data-toggle="tooltip" data-placement="top"
-                                title="Agreement Submission to (Division Name)">
-                                ASTDN</th>
-                            <th data-toggle="tooltip" data-placement="top"
-                                title="Agreement Submission to (Person Name)">
-                                ASTPN</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {% for pso in project_start_obj %}
-                        <tr>
-                            <th>{{pso.project.project_name}}</th>
-                            <th>{{pso.ai_sub_date}}</th>
-                            <th>{{pso.ahtsn}}</th>
-                            <th>{{pso.ahts}}</th>
-                            <th>{{pso.asd}}</th>
-                            <th>{{pso.astdn}}</th>
-                            <th>{{pso.astpn}}</th>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {% for pso in project_start_obj  %}
+                <a href="{% url 'edit_project_start' pso.id project_obj.id %}"
+                    class="{{ep}} d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
+                        class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit Project P1</a>
+                {% endfor %}
+                {% endif %}
             </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="card-body py-0" id="tab">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Project Name</th>
+                        <th data-toggle="tooltip" data-placement="top"
+                            title="Agreement & Indemnity Bond Submission Date">AI Sub Date</th>
+                        <th data-toggle="tooltip" data-placement="top" title="Agreement Handover to Supervisor Name">
+                            AHTSN</th>
+                        <th data-toggle="tooltip" data-placement="top" title="Agreement Handover to Supervisor Date">
+                            AHTSD</th>
+                        <th data-toggle="tooltip" data-placement="top" title="Agreement Submission Date">ASD</th>
+                        <th data-toggle="tooltip" data-placement="top" title="Agreement Submission to (Division Name)">
+                            ASTDN</th>
+                        <th data-toggle="tooltip" data-placement="top" title="Agreement Submission to (Person Name)">
+                            ASTPN</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for pso in project_start_obj %}
+                    <tr>
+                        <th>{{pso.project.project_name}}</th>
+                        <th>{{pso.ai_sub_date}}</th>
+                        <th>{{pso.ahtsn}}</th>
+                        <th>{{pso.ahts}}</th>
+                        <th>{{pso.asd}}</th>
+                        <th>{{pso.astdn}}</th>
+                        <th>{{pso.astpn}}</th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+<!-- Project Start Detaisl - End -->
 
 
 
-<!-- Project Repeter Start -->
+<!-- Project Repeter Details -->
+<div class="card shadow mb-4">
 
-<div class="container-fluid">
-
-    <div class="card shadow mb-4">
-
-        <div class="row">
-            <div class="col-lg-8 col-md-8 col-xs-12">
-                <div class="card-header d-sm-flex align-items-center justify-content-between">
-                    <h5 class="m-0 font-weight-bold text-primary py-1">Project Repeter</h5>
-                    <h6 class="m-0 font-weight-medium text-primary py-1">Total Project Repeter Submited &nbsp;:&nbsp;
-                        <strong>{{prlen}}</strong></h6>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-xs-12">
-                <div class="card-header d-sm-flex align-items-center justify-content-end">
-
-                    <a href="{% url 'project_repeter' project_obj.id %}"
-                        class="d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                            class="fas fa-plus fa-sm text-white-50 pr-2"></i>Start Project Repeter</a>
-
-                </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-xs-12">
+            <div class="card-header d-sm-flex align-items-center justify-content-between">
+                <h5 class="m-0 font-weight-bold text-primary py-1">Project Repeter</h5>
+                <h6 class="m-0 font-weight-medium text-primary py-1">Total Project Repeter Submited &nbsp;:&nbsp;
+                    <strong>{{prlen}}</strong></h6>
             </div>
         </div>
+        <div class="col-lg-4 col-md-4 col-xs-12">
+            <div class="card-header d-sm-flex align-items-center justify-content-end">
+
+                {% if request.user.is_staff %}
+                <a href="{% url 'project_repeter' project_obj.id %}"
+                    class="d-xs-block mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-plus fa-sm text-white-50 pr-2"></i>Start Project Repeter</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
 
 
-        <div class="accordion" id="accordionExample">
+    <div class="accordion" id="accordionExample">
 
-            {% for pr in project_repeter %}
+        {% for pr in project_repeter %}
 
-            <div class="card">
-                <div class="card-header" id="heading{{forloop.counter}}">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse"
-                            data-target="#collapse{{forloop.counter}}" aria-expanded="false"
-                            aria-controls="collapse{{forloop.counter}}">
-                            <h6>Project Repeter &nbsp;:&nbsp; <strong>{{forloop.counter}}</strong> &nbsp; &nbsp; |||
-                                &nbsp; &nbsp; From - &nbsp;
-                                <strong>{{pr.from_date}}</strong> &nbsp; To - &nbsp; <strong>{{pr.to_date}}</strong>
-                            </h6>
-                        </button>
-                    </h2>
-                </div>
+        <div class="card">
+            <div class="card-header" id="heading{{forloop.counter}}">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                        data-target="#collapse{{forloop.counter}}" aria-expanded="false"
+                        aria-controls="collapse{{forloop.counter}}">
+                        <h6>Project Repeter &nbsp;:&nbsp; <strong>{{forloop.counter}}</strong> &nbsp; &nbsp; |||
+                            &nbsp; &nbsp; From - &nbsp;
+                            <strong>{{pr.from_date}}</strong> &nbsp; To - &nbsp; <strong>{{pr.to_date}}</strong>
+                        </h6>
+                    </button>
+                </h2>
+            </div>
 
-                <div id="collapse{{forloop.counter}}" class="collapse" aria-labelledby="heading{{forloop.counter}}"
-                    data-parent="#accordionExample">
-                    <div class="card-body">
+            <div id="collapse{{forloop.counter}}" class="collapse" aria-labelledby="heading{{forloop.counter}}"
+                data-parent="#accordionExample">
+                <div class="card-body">
 
-                        <div class="row">
-                            <div class="col-md-4 col-lg-4 col-xs-12">
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">From
-                                    Date<strong>&nbsp:&nbsp{{pr.from_date}}</strong></div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">To
-                                    Date<strong>&nbsp:&nbsp{{pr.to_date}}</strong></div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">Invoice Copy &nbsp:&nbsp
-                                    <a href="{{pr.invoice_copy.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.invoice_copy.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">Cover Letter&nbsp:&nbsp
-                                    <a href="{{pr.cover_letter.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.cover_letter.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">Attendance Sheet &nbsp:&nbsp
-                                    <a href="{{pr.atten_sheet.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.atten_sheet.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">Labore Passbook / BS &nbsp:&nbsp
-                                    <a href="{{pr.labor_passbook.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.labor_passbook.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-xs-12">
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">From
+                                Date<strong>&nbsp:&nbsp{{pr.from_date}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">To
+                                Date<strong>&nbsp:&nbsp{{pr.to_date}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Invoice Copy &nbsp:&nbsp
+                                <a href="{{pr.invoice_copy.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.invoice_copy.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
                             </div>
-                            <div class="col-md-3 col-lg-3 col-xs-12">
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">Salary Sheet &nbsp:&nbsp
-                                    <a href="{{pr.salary_sheet.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.salary_sheet.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">Bank Statement &nbsp:&nbsp
-                                    <a href="{{pr.bank_statement.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.bank_statement.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">EPF Chalan &nbsp:&nbsp
-                                    <a href="{{pr.epf_chalan.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.epf_chalan.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">EPF ECR &nbsp:&nbsp
-                                    <a href="{{pr.epf_ecr.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.epf_ecr.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">ESIC Chalan &nbsp:&nbsp
-                                    <a href="{{pr.esic_chalan.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.esic_chalan.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-                                <br>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 ">ESIC ECR &nbsp:&nbsp
-                                    <a href="{{pr.esic_ecr.url}}" target="_blank"><i
-                                            class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
-                                    &nbsp; | &nbsp;&nbsp;<a href="{{pr.esic_ecr.url}}"
-                                        download="{{pr.cover_letter.label_tag}}"><i
-                                            class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
-                                </div>
-
-
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Cover Letter&nbsp:&nbsp
+                                <a href="{{pr.cover_letter.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.cover_letter.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
                             </div>
-                            <div class="col-md-5 col-lg-5 col-xs-12">
-                                <hr>
-                                <a href="{% url 'create_followup' pr.id project_obj.id %}"
-                                    class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-phone-volume fa-sm text-white-50 pr-2"></i>Create Follow Up</a>
-
-                                <a href="{% url 'view_followup' pr.id project_obj.id %}"
-                                    class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-eye fa-sm text-white-50 pr-2"></i>View Project Followups</a>
-
-                                <a href="#"
-                                    class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-                                        class="fas fa-rupee-sign fa-sm text-white-50 pr-2"></i>RAO Payment Status</a>
-                                <a href="{% url 'edit_pr' pr.id project_obj.id %}"
-                                    class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
-                                        class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit PR</a>
-                                <a href="{% url 'delete_pr' pr.id project_obj.id %}"
-                                    class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i
-                                        class="fas fa-trash fa-sm text-white-50 pr-2"></i>Delete PR</a>
-
-                                <hr>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 py-1">Project
-                                    Name<strong>&nbsp:&nbsp{{pr.project.project_name}}</strong></div>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 py-1">Document Handover
-                                    Date<strong>&nbsp:&nbsp{{pr.doc_handover_date}}</strong></div>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 py-1">Document Handover
-                                    To<strong>&nbsp:&nbsp{{pr.doc_handover_option}}</strong></div>
-                                <div class="h6 mb-0 font-weight-medium text-gray-800 py-1">Document Handover to (Person
-                                    Name)<strong>&nbsp:&nbsp{{pr.doc_handover_person}}</strong></div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Attendance Sheet &nbsp:&nbsp
+                                <a href="{{pr.atten_sheet.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.atten_sheet.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
                             </div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Labore Passbook / BS &nbsp:&nbsp
+                                <a href="{{pr.labor_passbook.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.labor_passbook.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
+                            </div>
+
                         </div>
+                        <div class="col-md-3 col-lg-3 col-xs-12">
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Salary Sheet &nbsp:&nbsp
+                                <a href="{{pr.salary_sheet.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.salary_sheet.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
+                            </div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">Bank Statement &nbsp:&nbsp
+                                <a href="{{pr.bank_statement.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.bank_statement.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
+                            </div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">EPF Chalan &nbsp:&nbsp
+                                <a href="{{pr.epf_chalan.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.epf_chalan.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
+                            </div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">EPF ECR &nbsp:&nbsp
+                                <a href="{{pr.epf_ecr.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.epf_ecr.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
+                            </div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">ESIC Chalan &nbsp:&nbsp
+                                <a href="{{pr.esic_chalan.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.esic_chalan.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
+                            </div>
+                            <br>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 ">ESIC ECR &nbsp:&nbsp
+                                <a href="{{pr.esic_ecr.url}}" target="_blank"><i
+                                        class="fas fa-link fa-sm text-primary-50 pr-2"></i></a>
+                                &nbsp; | &nbsp;&nbsp;<a href="{{pr.esic_ecr.url}}"
+                                    download="{{pr.cover_letter.label_tag}}"><i
+                                        class=" fas fa-download fa-sm text-primary-50 pr-2"></i></a>
+                            </div>
 
+
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-xs-12">
+                            <hr>
+                            <a href="{% url 'create_followup' pr.id project_obj.id %}"
+                                class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fas fa-phone-volume fa-sm text-white-50 pr-2"></i>Create Follow Up</a>
+
+                            <a href="{% url 'view_followup' pr.id project_obj.id %}"
+                                class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fas fa-eye fa-sm text-white-50 pr-2"></i>View Project Followups</a>
+
+                            <a href="#"
+                                class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                    class="fas fa-rupee-sign fa-sm text-white-50 pr-2"></i>RAO Payment Status</a>
+
+                            {% if request.user.is_staff %}
+                            <a href="{% url 'edit_pr' pr.id project_obj.id %}"
+                                class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
+                                    class="fas fa-edit fa-sm text-white-50 pr-2"></i>Edit PR</a>
+                            <a href="{% url 'delete_pr' pr.id project_obj.id %}"
+                                class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i
+                                    class="fas fa-trash fa-sm text-white-50 pr-2"></i>Delete PR</a>
+                            {% endif %}
+                            <hr>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 py-1">Project
+                                Name<strong>&nbsp:&nbsp{{pr.project.project_name}}</strong></div>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 py-1">Document Handover
+                                Date<strong>&nbsp:&nbsp{{pr.doc_handover_date}}</strong></div>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 py-1">Document Handover
+                                To<strong>&nbsp:&nbsp{{pr.doc_handover_option}}</strong></div>
+                            <div class="h6 mb-0 font-weight-medium text-gray-800 py-1">Document Handover to (Person
+                                Name)<strong>&nbsp:&nbsp{{pr.doc_handover_person}}</strong></div>
+                        </div>
                     </div>
+
                 </div>
             </div>
-
-            {% endfor %}
-
         </div>
+
+        {% endfor %}
+
     </div>
-
-
-
 </div>
+<!-- Project Repeter Details - End -->
 
 
 

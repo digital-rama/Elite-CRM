@@ -5,13 +5,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-handler404 = 'manpower.views.handler404'
-handler500 = 'manpower.views.handler500'
-
-
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
+    path('uaaccess/', views.uaaccess, name='uaaccess'),
     path('tenders/', views.tenders, name='tenders'),
+    path('super_dashboard/', views.super_dashboard, name='super_dashboard'),
     path('add_tender/', views.add_tender, name='add_tender'),
     path('edit_tender/<int:id>/', views.edit_tender, name='edit_tender'),
     path('detete_tender/<int:id>/', views.detete_tender, name='delete_tender'),
@@ -58,6 +56,8 @@ urlpatterns = [
          views.edit_Labour, name='edit_Labour'),
     path('delete_labour/<int:id>/<int:pid>',
          views.delete_labour, name='delete_labour'),
+    path('labour_attendance/<int:id>',
+         views.labour_attendance, name='labour_attendance'),
     path('all_labours/', views.all_labours, name='all_labours'),
     path('login/', auth_views.LoginView.as_view(template_name='manpower/login.html'), name='login'),
     path('logoutuser/', auth_views.LogoutView.as_view(

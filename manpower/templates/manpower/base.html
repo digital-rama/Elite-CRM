@@ -7,7 +7,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,7 +16,7 @@
     <title>Elite Works CRM</title>
 
     <!-- Custom fonts for this template-->
-
+    <link rel="icon" href="{% static 'img/elite_fabicon.svg' %}" sizes="any" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link
@@ -56,6 +55,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {% if request.path == dashboard %} active {%endif%}">
                 <a class="nav-link" href="{% url 'dashboard' %}">
@@ -68,7 +68,7 @@
             <!-- Divider End-->
 
             <!-- Tender Start-->
-
+            {% if request.user.is_staff %}
             <li class="nav-item {% if request.path == tender %} active {%endif%}">
                 <a class="nav-link collapsed" href="{% url 'tenders'  %}" data-toggle="collapse"
                     data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -84,7 +84,7 @@
                 </div>
             </li>
             <!-- Tender End-->
-
+            {% endif %}
             <!-- Project Start-->
 
             <li class="nav-item {% if request.path == project %} active {%endif%}">
@@ -94,7 +94,7 @@
             </li>
 
             <!-- Project End-->
-
+            {% if request.user.is_staff %}
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -115,10 +115,12 @@
                     </div>
                 </div>
             </li>
-
+            {% endif %}
             <!-- Supervisor End-->
 
             <!-- Labour Start-->
+
+            {% if request.user.is_staff %}
 
             <li class="nav-item {% if request.path == project %} active {%endif%}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -137,7 +139,7 @@
                     </div>
                 </div>
             </li>
-
+            {% endif %}
 
             <!-- Labour End-->
 
@@ -226,8 +228,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hello, {{request.user}}</span>
-                                <img class="img-profile rounded-circle" src="{% static 'img/user_logo.svg' %}">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Hello,
+                                    {{request.user.first_name}}</span>
+                                <img class="img-profile rounded-circle" src="{{profile_pic}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

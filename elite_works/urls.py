@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from manpower.forms import *
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('manpower.urls')),
 ]
+
+handler404 = 'manpower.views.error_404_views'
+handler500 = 'manpower.views.error_500_views'
