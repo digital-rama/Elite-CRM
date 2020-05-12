@@ -139,8 +139,7 @@ class ProjectRepeter(models.Model):
     POSITION = [(Assistant, 'Assistant'), (Engineer, 'Engineer'),
                 (Division_Office, 'Division Office'), (Supervisor, 'Supervisor')]
     project = models.ForeignKey(Projects, on_delete=models.CASCADE, null=True)
-    from_date = models.DateField('From Date', default=(
-        date.today()-timedelta(days=30)).isoformat())
+    from_date = models.DateField('From Date', default=timezone.now)
     to_date = models.DateField('To Date', default=timezone.now)
     cover_letter = models.FileField('Covering Letter Copy')
     invoice_copy = models.FileField('Invoice Copy')

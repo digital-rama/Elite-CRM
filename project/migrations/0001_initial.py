@@ -18,11 +18,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Projects',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('project_number', models.CharField(max_length=200, null=True, verbose_name='Project Number')),
-                ('project_name', models.CharField(max_length=200, null=True, verbose_name='Project Name')),
-                ('project_start_date', models.DateField(default=django.utils.timezone.now, verbose_name='Project Start Date')),
-                ('superviser', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='manpower.SuperVisors')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('project_number', models.CharField(
+                    max_length=200, null=True, verbose_name='Project Number')),
+                ('project_name', models.CharField(
+                    max_length=200, null=True, verbose_name='Project Name')),
+                ('project_start_date', models.DateField(
+                    default=django.utils.timezone.now, verbose_name='Project Start Date')),
+                ('superviser', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='manpower.SuperVisors')),
             ],
             options={
                 'verbose_name': 'Project',
@@ -32,15 +37,24 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Security_Deposit',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('deposit_type', models.CharField(choices=[('DD', 'DD'), ('FDR', 'FDR'), ('BG', 'BG')], default=None, max_length=10)),
-                ('cretion_date', models.DateField(default=django.utils.timezone.now, verbose_name='Creation Date')),
-                ('submission_date', models.DateField(default=django.utils.timezone.now, verbose_name='Submission Date')),
-                ('bank_name', models.CharField(blank=True, max_length=50, null=True, verbose_name='Bank Name')),
-                ('amount', models.CharField(blank=True, max_length=10, null=True, verbose_name='Amount')),
-                ('validity', models.DateField(blank=True, default=django.utils.timezone.now, null=True, verbose_name='Validity')),
-                ('maturity_amount', models.CharField(blank=True, max_length=50, verbose_name='Maturity Amount')),
-                ('support_doc', models.FileField(blank=True, null=True, upload_to='', verbose_name='Supportive Document')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('deposit_type', models.CharField(choices=[
+                 ('DD', 'DD'), ('FDR', 'FDR'), ('BG', 'BG')], default=None, max_length=10)),
+                ('cretion_date', models.DateField(
+                    default=django.utils.timezone.now, verbose_name='Creation Date')),
+                ('submission_date', models.DateField(
+                    default=django.utils.timezone.now, verbose_name='Submission Date')),
+                ('bank_name', models.CharField(blank=True,
+                                               max_length=50, null=True, verbose_name='Bank Name')),
+                ('amount', models.CharField(blank=True,
+                                            max_length=10, null=True, verbose_name='Amount')),
+                ('validity', models.DateField(
+                    blank=True, default=django.utils.timezone.now, null=True, verbose_name='Validity')),
+                ('maturity_amount', models.CharField(blank=True,
+                                                     max_length=50, verbose_name='Maturity Amount')),
+                ('support_doc', models.FileField(blank=True, null=True,
+                                                 upload_to='', verbose_name='Supportive Document')),
             ],
             options={
                 'verbose_name': 'Security Deposit',
@@ -50,35 +64,59 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tender',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uuid_no', models.UUIDField(default=uuid.uuid4, editable=False, unique=True)),
-                ('date_created', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Creation Date')),
-                ('tender_number', models.CharField(max_length=500, verbose_name='Tender Number / ID')),
-                ('tender_name', models.CharField(max_length=500, verbose_name='Tender Name')),
-                ('tender_description', models.TextField(verbose_name='Tender Description')),
-                ('tender_submission_date', models.DateField(default=django.utils.timezone.now, verbose_name='Tender Submission Date')),
-                ('tender_purchase_reciept', models.FileField(upload_to='', verbose_name='Tender Purchase Reciept')),
-                ('tender_confirmation_reciept', models.FileField(upload_to='', verbose_name='Tender Confirmation Reciept')),
-                ('physical_submission_date', models.DateField(default=django.utils.timezone.now, verbose_name='Physical Submission Date')),
-                ('tech_bid_opening_date', models.DateField(default=django.utils.timezone.now, verbose_name='Technical Bid Opening Date')),
-                ('bid_status', models.CharField(choices=[('Yes', 'Yes'), ('No', 'No')], default='No', max_length=10, verbose_name='Bid Status')),
-                ('bid_price_opening_date', models.DateField(blank=True, default=django.utils.timezone.now, verbose_name='Bid price opening date')),
-                ('prize_bid', models.CharField(max_length=50, verbose_name='Bid Price')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('uuid_no', models.UUIDField(
+                    default=uuid.uuid4, editable=False, unique=True)),
+                ('date_created', models.DateTimeField(
+                    auto_now_add=True, null=True, verbose_name='Creation Date')),
+                ('tender_number', models.CharField(
+                    max_length=500, verbose_name='Tender Number / ID')),
+                ('tender_name', models.CharField(
+                    max_length=500, verbose_name='Tender Name')),
+                ('tender_description', models.TextField(
+                    verbose_name='Tender Description')),
+                ('tender_submission_date', models.DateField(
+                    default=django.utils.timezone.now, verbose_name='Tender Submission Date')),
+                ('tender_purchase_reciept', models.FileField(
+                    upload_to='', verbose_name='Tender Purchase Reciept')),
+                ('tender_confirmation_reciept', models.FileField(
+                    upload_to='', verbose_name='Tender Confirmation Reciept')),
+                ('physical_submission_date', models.DateField(
+                    default=django.utils.timezone.now, verbose_name='Physical Submission Date')),
+                ('tech_bid_opening_date', models.DateField(
+                    default=django.utils.timezone.now, verbose_name='Technical Bid Opening Date')),
+                ('bid_status', models.CharField(choices=[
+                 ('Yes', 'Yes'), ('No', 'No')], default='No', max_length=10, verbose_name='Bid Status')),
+                ('bid_price_opening_date', models.DateField(
+                    blank=True, default=django.utils.timezone.now, verbose_name='Bid price opening date')),
+                ('prize_bid', models.CharField(
+                    max_length=50, verbose_name='Bid Price')),
             ],
         ),
         migrations.CreateModel(
             name='ProjectStart',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ai_sub_date', models.DateField(default=django.utils.timezone.now, verbose_name='Agreement & Indemnity Bond Submission Date')),
-                ('ai_upload', models.FileField(upload_to='', verbose_name='Agreement & Indemnity Bond Upload')),
-                ('ahtsn', models.CharField(max_length=50, verbose_name='Agreement Handover to Supervisor Name')),
-                ('ahts', models.DateField(default=django.utils.timezone.now, null=True, verbose_name='Agreement Handover to Supervisor Date')),
-                ('asd', models.DateField(default=django.utils.timezone.now, null=True, verbose_name='Agreement Submission Date')),
-                ('astdn', models.CharField(max_length=50, verbose_name='Agreement Submission to (Division Name)')),
-                ('astpn', models.CharField(max_length=50, verbose_name='Agreement Submission to (Person Name)')),
-                ('project', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='project.Projects')),
-                ('security_deposit', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='project.Security_Deposit')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('ai_sub_date', models.DateField(default=django.utils.timezone.now,
+                                                 verbose_name='Agreement & Indemnity Bond Submission Date')),
+                ('ai_upload', models.FileField(upload_to='',
+                                               verbose_name='Agreement & Indemnity Bond Upload')),
+                ('ahtsn', models.CharField(max_length=50,
+                                           verbose_name='Agreement Handover to Supervisor Name')),
+                ('ahts', models.DateField(default=django.utils.timezone.now,
+                                          null=True, verbose_name='Agreement Handover to Supervisor Date')),
+                ('asd', models.DateField(default=django.utils.timezone.now,
+                                         null=True, verbose_name='Agreement Submission Date')),
+                ('astdn', models.CharField(max_length=50,
+                                           verbose_name='Agreement Submission to (Division Name)')),
+                ('astpn', models.CharField(max_length=50,
+                                           verbose_name='Agreement Submission to (Person Name)')),
+                ('project', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='project.Projects')),
+                ('security_deposit', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='project.Security_Deposit')),
             ],
             options={
                 'verbose_name': 'Project Phase - 1',
@@ -88,28 +126,46 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='projects',
             name='tender',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='project.Tender'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='project.Tender'),
         ),
         migrations.CreateModel(
             name='ProjectRepeter',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('from_date', models.DateField(default='2020-04-08T19:06:48.031208+00:00', verbose_name='From Date')),
-                ('to_date', models.DateField(default=django.utils.timezone.now, verbose_name='To Date')),
-                ('cover_letter', models.FileField(upload_to='', verbose_name='Covering Letter Copy')),
-                ('invoice_copy', models.FileField(upload_to='', verbose_name='Invoice Copy')),
-                ('atten_sheet', models.FileField(upload_to='', verbose_name='Attendance Sheet Copy')),
-                ('salary_sheet', models.FileField(upload_to='', verbose_name='Salary Sheet Copy')),
-                ('bank_statement', models.FileField(upload_to='', verbose_name='Bank Statement Copy')),
-                ('epf_chalan', models.FileField(upload_to='', verbose_name='EPF Chalan (Upload)')),
-                ('epf_ecr', models.FileField(upload_to='', verbose_name='EPF ECR (Upload)')),
-                ('esic_chalan', models.FileField(upload_to='', verbose_name='ESIC Chalan (Upload)')),
-                ('esic_ecr', models.FileField(upload_to='', verbose_name='ESIC ECR (Upload)')),
-                ('labor_passbook', models.FileField(upload_to='', verbose_name='Labore Passbook / BS (Upload)')),
-                ('doc_handover_date', models.DateField(default=django.utils.timezone.now, verbose_name='All Document Handover Date')),
-                ('doc_handover_option', models.CharField(choices=[('Assistant', 'Assistant'), ('Engineer', 'Engineer'), ('Division Office', 'Division Office'), ('Supervisor', 'Supervisor')], default=None, max_length=200, verbose_name='All Document Handover to (Options)')),
-                ('doc_handover_person', models.CharField(max_length=50, null=True, verbose_name='All Document Handover to (Person Name)')),
-                ('project', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='project.Projects')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('from_date', models.DateField(
+                    default='2020-04-08', verbose_name='From Date')),
+                ('to_date', models.DateField(
+                    default=django.utils.timezone.now, verbose_name='To Date')),
+                ('cover_letter', models.FileField(
+                    upload_to='', verbose_name='Covering Letter Copy')),
+                ('invoice_copy', models.FileField(
+                    upload_to='', verbose_name='Invoice Copy')),
+                ('atten_sheet', models.FileField(
+                    upload_to='', verbose_name='Attendance Sheet Copy')),
+                ('salary_sheet', models.FileField(
+                    upload_to='', verbose_name='Salary Sheet Copy')),
+                ('bank_statement', models.FileField(
+                    upload_to='', verbose_name='Bank Statement Copy')),
+                ('epf_chalan', models.FileField(
+                    upload_to='', verbose_name='EPF Chalan (Upload)')),
+                ('epf_ecr', models.FileField(
+                    upload_to='', verbose_name='EPF ECR (Upload)')),
+                ('esic_chalan', models.FileField(
+                    upload_to='', verbose_name='ESIC Chalan (Upload)')),
+                ('esic_ecr', models.FileField(
+                    upload_to='', verbose_name='ESIC ECR (Upload)')),
+                ('labor_passbook', models.FileField(upload_to='',
+                                                    verbose_name='Labore Passbook / BS (Upload)')),
+                ('doc_handover_date', models.DateField(
+                    default=django.utils.timezone.now, verbose_name='All Document Handover Date')),
+                ('doc_handover_option', models.CharField(choices=[('Assistant', 'Assistant'), ('Engineer', 'Engineer'), ('Division Office', 'Division Office'), (
+                    'Supervisor', 'Supervisor')], default=None, max_length=200, verbose_name='All Document Handover to (Options)')),
+                ('doc_handover_person', models.CharField(max_length=50, null=True,
+                                                         verbose_name='All Document Handover to (Person Name)')),
+                ('project', models.ForeignKey(
+                    null=True, on_delete=django.db.models.deletion.CASCADE, to='project.Projects')),
             ],
             options={
                 'verbose_name': 'Project Phase - 2',
@@ -119,13 +175,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='otherContractors',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('contructor_name', models.CharField(max_length=200, null=True, verbose_name='Contructor Name')),
-                ('contructor_location', models.CharField(max_length=200, null=True, verbose_name='Contructor Location')),
-                ('contact_number', models.CharField(max_length=200, null=True, verbose_name='Contact Number')),
-                ('email_address', models.EmailField(max_length=200, null=True, verbose_name='Email Address')),
-                ('other_contructor_bid_amount', models.CharField(max_length=200, null=True, verbose_name='Other Contructors Bid Amount')),
-                ('tender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='project.Tender')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('contructor_name', models.CharField(
+                    max_length=200, null=True, verbose_name='Contructor Name')),
+                ('contructor_location', models.CharField(
+                    max_length=200, null=True, verbose_name='Contructor Location')),
+                ('contact_number', models.CharField(
+                    max_length=200, null=True, verbose_name='Contact Number')),
+                ('email_address', models.EmailField(
+                    max_length=200, null=True, verbose_name='Email Address')),
+                ('other_contructor_bid_amount', models.CharField(
+                    max_length=200, null=True, verbose_name='Other Contructors Bid Amount')),
+                ('tender', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='project.Tender')),
             ],
             options={
                 'verbose_name': 'Other Contractors',

@@ -18,11 +18,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='security_deposit',
             name='project',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='project.Projects'),
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.CASCADE, to='project.Projects'),
         ),
         migrations.AlterField(
             model_name='projectrepeter',
             name='from_date',
-            field=models.DateField(default='2020-04-08T19:36:22.405486+00:00', verbose_name='From Date'),
+            field=models.DateField(default='2020-04-08',
+                                   verbose_name='From Date'),
         ),
     ]

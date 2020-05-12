@@ -83,12 +83,21 @@ WSGI_APPLICATION = 'elite_works.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# Development Databse Connection
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'elitecrm_development',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',   # Localhost
+        'PORT': '3306',
     }
 }
+
+
+# Production Databse Connection
 
 
 # Password validation
