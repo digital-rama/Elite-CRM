@@ -56,9 +56,10 @@ urlpatterns = [
          views.edit_Labour, name='edit_Labour'),
     path('delete_labour/<int:id>/<int:pid>',
          views.delete_labour, name='delete_labour'),
-    path('labour_attendance/<int:id>',
+    path('labour_attendance/<int:id>/<int:pid>',
          views.labour_attendance, name='labour_attendance'),
     path('all_labours/', views.all_labours, name='all_labours'),
+    path('all_attendance/<int:id>', views.all_attendance, name='all_attendance'),
     path('login/', auth_views.LoginView.as_view(template_name='manpower/login.html'), name='login'),
     path('logoutuser/', auth_views.LogoutView.as_view(
         next_page=settings.LOGOUT_REDIRECT_URL), name='logoutuser'),

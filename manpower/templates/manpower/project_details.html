@@ -9,9 +9,9 @@
         <a href="{% url 'projects' %}"
             class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-suitcase fa-sm text-white-50 pr-2"></i>All Projects</a>
-        <a href="{% url 'labour_attendance' project_obj.id %}"
+        <a href="{% url 'all_attendance' project_obj.id %}"
             class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-info shadow-sm"><i
-                class="fas fa-users fa-sm text-white-50 pr-2"></i>Mark Attendance</a>
+                class="fas fa-users fa-sm text-white-50 pr-2"></i>View Attendance</a>
         <a href="{% url 'addlabour' project_obj.id %}"
             class="d-xs-block my-1 mr-2 px-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-tasks fa-sm text-white-50 pr-2"></i>Allocate Labours</a>
@@ -124,6 +124,7 @@
                         <th>Aadhar Number</th>
                         <th><i class="material-icons update">edit</i></th>
                         <th><i class="material-icons delete">delete</i></th>
+                        <th><i class="material-icons attendance">font_download</i></th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -137,6 +138,7 @@
                         <th>Aadhar Number</th>
                         <th><i class="material-icons update">edit</i></th>
                         <th><i class="material-icons delete">delete</i></th>
+                        <th><i class="material-icons attendance">font_download</i></th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -154,6 +156,8 @@
                         </th>
                         <th><a href="{% url 'delete_labour' lo.id project_obj.id %}"><i
                                     class="material-icons delete">delete</i></a></th>
+                        <th><a href="{% url 'labour_attendance' lo.id project_obj.id %}"><i
+                                    class="material-icons attendance">font_download</i></a></th>
                     </tr>
                     {% endfor %}
                 </tbody>

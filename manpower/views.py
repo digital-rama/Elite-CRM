@@ -7,6 +7,7 @@ from django.contrib import messages
 from manpower.forms import *
 from django.contrib.auth.decorators import login_required
 from manpower.decoraters import *
+from django.forms import modelformset_factory
 
 
 # from .server import check_servers
@@ -560,7 +561,34 @@ def all_labours(request):
     return render(request, 'manpower/all_labours.html', context)
 
 
-def labour_attendance(request, id):
+def labour_attendance(request, id, pid):
+    labour_obj = labour.objects.get(id=id)
+    labour_attendance_obj = Attendance.objects.filter(labour=labour_obj)
+    if request.method == 'POST':
+        form = labourAttendance(request.POST)
+        if form.is_valid():
+            form_data = form.save(commit=False)
+            form_data.project = Projects.objects.get(id=pid)
+            form_data.labour = labour.objects.get(id=id)
+            form_data.save()
+            if request.POST.get('Save'):
+                return redirect('/project_details/' + str(Projects.objects.get(id=pid).id))
+            if request.POST.get('NewForm'):
+                return redirect(labour_attendance, id=id, pid=pid)
 
-    context = {}
+    else:
+        form = labourAttendance()
+
+    context = {'form': form, 'labour_obj': labour_obj,
+               'labour_attendance_obj': labour_attendance_obj}
     return render(request, 'manpower/attendance.html', context)
+
+
+def all_attendance(request, id):
+    project_obj = Projects.objects.get(id=id)
+    attendance = Attendance.objects.filter(project=project_obj)
+    labour_count = len(labour.objects.filter(project=project_obj))
+
+    context = {'attendance': attendance,
+               'project_obj': project_obj, 'labour_count': labour_count}
+    return render(request, 'manpower/all_attendance.html', context)

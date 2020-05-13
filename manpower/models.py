@@ -119,20 +119,27 @@ class labour(models.Model):
 
 
 class Attendance(models.Model):
-    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    date = models.DateField('Attendance Date', default=timezone.now)
-    labour = models.ForeignKey(labour, on_delete=models.CASCADE)
+    project = models.ForeignKey(Projects, on_delete=models.SET_NULL, null=True)
+    labour = models.ForeignKey(labour, on_delete=models.CASCADE, null=True)
+    date = models.DateField('Attendance Date', default=timezone.now, null=True)
     A = 'A'
     B = 'B'
     C = 'C'
     R = 'R'
-    status = [(A, 'A'), (B, 'B'), (C, 'C'), (R, 'R')]
-    shift = models.CharField('Shift', max_length=10,
-                             choices=status, default=None)
+    shifts = [(A, 'A'), (B, 'B'), (C, 'C'), (R, 'R')]
+    shift = models.CharField('Shift', max_length=12,
+                             choices=shifts, default=None, null=True)
+    overtimes = [(A, 'A'), (B, 'B'), (C, 'C')]
+    overtime = models.CharField('Overtime (Only if Available)', max_length=12,
+                                choices=overtimes, default='', blank=True)
 
     def __str__(self):
-        return str(self.labour)
+        return str(self.labour, self.date)
 
     class Meta:
         verbose_name = 'Attandance'
         verbose_name_plural = 'Attandance'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['date', 'labour'], name='Labour data Unique')
+        ]

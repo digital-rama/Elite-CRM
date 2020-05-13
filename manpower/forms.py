@@ -2,6 +2,7 @@ from django import forms
 from manpower.models import *
 from project.models import *
 from bootstrap_datepicker_plus import DatePickerInput
+import datetime
 
 
 class addTender(forms.ModelForm):
@@ -123,9 +124,15 @@ class addLabour(forms.ModelForm):
 
 class labourAttendance(forms.ModelForm):
     class Meta:
-        model = labour
+        model = Attendance
         fields = '__all__'
-        exclude = ['project']
+        exclude = ['project', 'labour']
         widgets = {
-            'dateofbirth': DatePickerInput(format='%Y-%m-%d')
+            'date': DatePickerInput(
+                options={
+                    'maxDate': (datetime.datetime.today() + datetime.timedelta(days=0)).strftime('%Y-%m-%d'),
+                }
+
+            ),
+
         }

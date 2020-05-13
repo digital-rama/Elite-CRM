@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "+e^&#+#(yw73wfi0p+e1w2%+d=y9ry&9h)o-o5f9#0d*9qk(99"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['elitecrmapp.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['crm.eliteworks.in', '127.0.0.1']
 
 
 # Application definition
@@ -43,12 +43,13 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap4',
     'django_forms_bootstrap',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.middleware.gzip.GZipMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,11 +94,24 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': 'localhost',   # Localhost
         'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
-
 # Production Databse Connection
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'itkfodcz_eliteworks_crm',
+#         'USER': 'itkfodcz_digitalrama',
+#         'PASSWORD': 'vyh5a64Ju3kEPt2',
+#         'HOST': 'ray.herosite.pro',   # MilesWeb
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation

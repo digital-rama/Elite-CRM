@@ -1,10 +1,108 @@
-{% extends 'manpower/base.html' %}
-
+{% extends "manpower/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
+{% load bootstrap4 %} {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %} {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %} {# Embed Bootstrap JS+jQuery #}
+{{ form.media }} {# Adds date-picker required JS and CSS #}
+
 
 <div class="container-fluid">
-    <h1>Attendance App</h1>
+
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Labour Attendance</h1>
+        <h1 class="h4 mb-0 text-gray-800 mr-5">Attendance for Labour :&nbsp;<strong
+                class="text-primary">{{labour_obj.name}}</strong></h1>
+    </div>
+
+
+
+    <style>
+        #messages {
+            color: red;
+            font-size: 18px;
+        }
+
+    </style>
+
+
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <form method='POST' class="my-3" enctype=multipart/form-data autocomplete="off">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <div class="text-right d-sm-flex align-items-center justify-content-between">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Submit" name="Save">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Add Another" name="NewForm">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Labour Attendance</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Shift</th>
+                                    <th>Overtime</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Shift</th>
+                                    <th>Overtime</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for lao in labour_attendance_obj  %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <th>{{lao.date}}</th>
+                                    <th>{{lao.shift}}</th>
+                                    <th>{{lao.overtime}}</th>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
 </div>
+
+
+
+<script type="text/javascript">
+    document.getElementById("id_shift").setAttribute("onchange", "showDiv(this)");
+
+    function showDiv(select) {
+        if (select.value == "R") {
+            document.getElementById('div_id_overtime').style.display = "none";
+        } else {
+            document.getElementById('div_id_overtime').style.display = "block";
+        }
+    } 
+</script>
+
 
 {% endblock content %}
